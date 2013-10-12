@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+<bean name="methodResultCacheEhCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+    <property name="cacheManager" ref="ehcacheCacheManager"></property>
+    <property name="cacheName" value="org.necros.methodResultCached"></property>
+</bean>
+
+<bean name="ehcacheCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    <property name="configLocation" value="classpath:META-INF/ehcache.xml"></property>
+</bean>
+
+<alias name="methodResultCacheEhCache" alias="methodResultCacheImpl"/>
+
+<bean name="methodResultCacheProvider" class="org.necros.cache.provider.EhCacheProvider">
+    <constructor-arg ref="methodResultCacheImpl"></constructor-arg>
+</bean>
+
+<bean name="methodResultCacheKeyGenerator"
+        class="org.necros.cache.key.StringMethodSignatureKeyGenerator">
+    <property name="keyValueStrategy"><bean class="org.necros.cache.key.MethodSignatureConcatinationStrategy">
+    </bean></property>
+</bean>
+
+<bean name="methodResultCache" class="org.necros.cache.MethodResultCachingAspect">
+    <property name="cacheDirectives"><list>
+        <bean class="org.necros.cache.directive.CacheDirectiveImpl">
+            <property name="provider" ref="methodResultCacheProvider"></property>
+            <property name="keyGenerator" ref="methodResultCacheKeyGenerator"></property>
+        </bean>
+    </list></property>
+    <property name="cacheRemovalDirectives"><list>
+        <bean class="org.necros.cache.directive.CacheRemovalDirectiveImpl">
+            <property name="provider" ref="methodResultCacheProvider"></property>
+            <property name="keyGenerator" ref="methodResultCacheKeyGenerator"></property>
+        </bean>
+    </list></property>
+</bean>
+
+</beans>
