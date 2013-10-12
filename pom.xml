@@ -10,6 +10,7 @@
 	<modules>
 		<module>nrt-core-caching</module>
 		<module>nrt-core-config</module>
+		<module>nrt-core-config-h4</module>
 	</modules>
  
 	<build>

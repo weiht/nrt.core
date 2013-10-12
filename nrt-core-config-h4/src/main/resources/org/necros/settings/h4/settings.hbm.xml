@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.necros.settings.Preference"
+			table="conf_sys_preferences"><!-- 参数项 -->
+		<id name="key" column="preference_key" type="string" length="200"></id>
+		<property name="parentPath" column="parent_path" type="string" length="200"></property>
+		<property name="value" column="preference_value" type="text"></property>
+		<property name="description" column="preference_description" type="string" length="200"></property>
+		<property name="itemType" column="item_type" type="int"></property>
+	</class>
+</hibernate-mapping>
