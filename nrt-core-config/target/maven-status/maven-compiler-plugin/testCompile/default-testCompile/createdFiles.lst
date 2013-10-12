@@ -1,0 +1,4 @@
+org/necros/settings/PreferenceServiceTestConstants.class
+org/necros/settings/SpringPreferenceServiceTest.class
+org/necros/settings/prop/PropertiesPreferenceServiceTest.class
+org/necros/settings/CascadingPreferenceServiceTest.class

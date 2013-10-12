@@ -3,18 +3,17 @@ package org.necros.cache;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.necros.cache.directive.CacheDirective;
 import org.necros.cache.directive.CacheRemovalDirective;
 import org.necros.cache.key.Key;
 import org.necros.cache.key.MethodSignatureKeyGenerator;
 import org.necros.cache.provider.Provider;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.aspectj.lang.ProceedingJoinPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MethodResultCachingAspect {
-	private static final Logger logger = LogManager.getLogger(MethodResultCachingAspect.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodResultCachingAspect.class);
 	
 	private List<CacheDirective> cacheDirectives
 		= new ArrayList<CacheDirective>();

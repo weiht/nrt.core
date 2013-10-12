@@ -4,12 +4,12 @@ import static org.junit.Assert.*;
 
 import javax.annotation.Resource;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -18,7 +18,7 @@ import org.necros.cache.test.MethodCallBean;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath*:META-INF/*-beans.xml")
 public class MethodCachingTest {
-	private static final Logger logger = LogManager.getLogger(MethodCachingTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodCachingTest.class);
 	
 	@Resource(name="methodCallBean")
 	private MethodCallBean cachedBean;

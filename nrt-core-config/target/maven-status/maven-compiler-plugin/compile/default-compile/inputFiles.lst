@@ -1,0 +1,10 @@
+/media/weiht/workbench/cloud/localgit/nrt.core/nrt-core-config/src/main/java/org/necros/settings/CascadingService.java
+/media/weiht/workbench/cloud/localgit/nrt.core/nrt-core-config/src/main/java/org/necros/settings/PreferenceService.java
+/media/weiht/workbench/cloud/localgit/nrt.core/nrt-core-config/src/main/java/org/necros/settings/AbstractPreferenceService.java
+/media/weiht/workbench/cloud/localgit/nrt.core/nrt-core-config/src/main/java/org/necros/settings/CascadingPreferenceService.java
+/media/weiht/workbench/cloud/localgit/nrt.core/nrt-core-config/src/main/java/org/necros/settings/CascadingServiceImpl.java
+/media/weiht/workbench/cloud/localgit/nrt.core/nrt-core-config/src/main/java/org/necros/settings/PreferenceException.java
+/media/weiht/workbench/cloud/localgit/nrt.core/nrt-core-config/src/main/java/org/necros/settings/PreferenceManager.java
+/media/weiht/workbench/cloud/localgit/nrt.core/nrt-core-config/src/main/java/org/necros/settings/Preference.java
+/media/weiht/workbench/cloud/localgit/nrt.core/nrt-core-config/src/main/java/org/necros/settings/prop/PropertiesPreferenceService.java
+/media/weiht/workbench/cloud/localgit/nrt.core/nrt-core-config/src/main/java/org/necros/settings/CascadingServiceInjector.java
