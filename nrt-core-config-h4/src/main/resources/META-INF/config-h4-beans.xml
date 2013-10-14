@@ -11,4 +11,13 @@
 
 <alias name="preferenceManagerH4" alias="preferenceManager"/>
 
+<bean name="resUuidGenerator" class="org.necros.data.UuidStringGenerator"/>
+
+<bean name="resourceManagerH4" class="org.necros.registry.h4.ResourceManagerH4">
+	<property name="sessionFactory" value="#{getObject('configSessionFactory')?:(getObject('sessionFactory')?:null)}"></property>
+	<property name="idGenerator" value="#{getObject('idGenerator')?:(getObject('resUuidGenerator')?:null)}"></property>
+</bean>
+
+<alias name="preferenceManagerH4" alias="preferenceManager"/>
+
 </beans>
