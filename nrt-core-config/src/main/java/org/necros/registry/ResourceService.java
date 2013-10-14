@@ -5,13 +5,8 @@ import java.util.List;
 import org.necros.paging.Pager;
 
 public interface ResourceService {
-	public abstract ResourceNode add(ResourceNode node) throws RegistryAccessException;
-	public abstract ResourceNode remove(ResourceNode node) throws RegistryAccessException;
 	public abstract ResourceNode get(String id);
 	public abstract ResourceNode getWithPath(String path);
-	public abstract ResourceNode replaceContent(ResourceNode newNode) throws RegistryAccessException;
-	public abstract ResourceNode rename(String fromId, String toName) throws RegistryAccessException;
-	public abstract ResourceNode move(String fromPath, String toPath) throws RegistryAccessException;
 	public abstract List<ResourceNode> root();
 	public abstract List<ResourceNode> filteredRoot(String filterText);
 	public abstract int countRoot();
