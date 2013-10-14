@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.necros.nrt.core</groupId>
 	<artifactId>nrt-core</artifactId>
-	<version>${nrt-core-version}</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>NRT core lib</name>
 	<packaging>pom</packaging>
 
 	<properties>
-		<nrt-core-version>0.0.1-SNAPSHOT</nrt-core-version>
+		<nrt-core-version>${project.version}</nrt-core-version>
 	</properties>
  
 	<modules>
