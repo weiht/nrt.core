@@ -3,9 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.necros.nrt.core</groupId>
 	<artifactId>nrt-core</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${nrt-core-version}</version>
 	<name>NRT core lib</name>
 	<packaging>pom</packaging>
+
+	<properties>
+		<nrt-core-version>0.0.1-SNAPSHOT</nrt-core-version>
+	</properties>
  
 	<modules>
 		<module>nrt-core-caching</module>
