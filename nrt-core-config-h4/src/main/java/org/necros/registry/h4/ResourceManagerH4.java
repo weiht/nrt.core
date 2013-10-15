@@ -10,6 +10,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import org.necros.data.IdGenerator;
 import org.necros.paging.Pager;
@@ -167,23 +168,123 @@ public class ResourceManagerH4 implements ResourceManager {
 	}
 	
 	public ResourceNode add(ResourceNode node) throws RegistryAccessException {
-		throw new RuntimeException("Not implemented.");
+		if (node == null) throw new RegistryAccessException("You cannot save an empty node.");
+		node.setId((String)idGenerator.generate());
+		if (!StringUtils.hasText(node.getParentPath())) {
+			node.setParentPath(ResourceNode.SEPARATOR);
+		}
+		String ppath = node.getParentPath();
+		if (!ppath.endsWith(ResourceNode.SEPARATOR)) {
+			ppath = ppath + ResourceNode.SEPARATOR;
+			node.setParentPath(ppath);
+		}
+
+		String path = ppath + node.getName();
+		if (getWithPath(path) != null) throw new RegistryAccessException("Duplicated node path: " + path);
+
+		node.setPath(path);
+		getSession().save(node);
+		return node;
 	}
 	
-	public ResourceNode remove(ResourceNode node) throws RegistryAccessException {
-		throw new RuntimeException("Not implemented.");
+	public ResourceNode remove(String nodeId) throws RegistryAccessException {
+		ResourceNode node = get(nodeId);
+		if (node != null) {
+			getSession().delete(node);
+		}
+		return node;
 	}
 	
 	public ResourceNode replaceContent(ResourceNode newNode) throws RegistryAccessException {
-		throw new RuntimeException("Not implemented.");
+		ResourceNode origNode = get(newNode.getId());
+		if (origNode == null) throw new RegistryAccessException("No such node found: " + newNode);
+		origNode.setDescription(newNode.getDescription());
+		origNode.setType(newNode.getType());
+		switch (origNode.getType()) {
+			case Long:
+				origNode.setLongValue(newNode.getLongValue());
+				origNode.setSize(8);
+				break;
+			case Double:
+				origNode.setDoubleValue(newNode.getDoubleValue());
+				origNode.setSize(8);
+				break;
+			case String:
+				origNode.setStringValue(newNode.getStringValue());
+				origNode.setSize(StringUtils.hasText(origNode.getStringValue())
+					? origNode.getStringValue().length()
+					: 0);
+				break;
+			case Clob:
+				origNode.setLongText(newNode.getLongText());
+				origNode.setSize(StringUtils.hasText(origNode.getLongText())
+					? origNode.getLongText().length()
+					: 0);
+				break;
+			case Blob:
+				origNode.setBinValue(newNode.getBinValue());
+				origNode.setSize(origNode.getBinValue() != null
+					? origNode.getBinValue().length
+					: 0);
+				break;
+			case Url:
+				origNode.setStringValue(newNode.getStringValue());
+				origNode.setSize(StringUtils.hasText(origNode.getStringValue())
+					? origNode.getStringValue().length()
+					: 0);
+				break;
+			case File:
+				origNode.setStringValue(newNode.getStringValue());
+				origNode.setBinValue(newNode.getBinValue());
+				origNode.setSize(origNode.getBinValue() != null
+					? origNode.getBinValue().length
+					: 0);
+				break;
+			case Serialized:
+				origNode.setBinValue(newNode.getBinValue());
+				origNode.setSize(origNode.getBinValue() != null
+					? origNode.getBinValue().length
+					: 0);
+				break;
+			default:
+				break;
+
+		}
+		getSession().update(origNode);
+		return origNode;
 	}
 	
 	public ResourceNode rename(String fromId, String toName) throws RegistryAccessException {
-		throw new RuntimeException("Not implemented.");
+		ResourceNode origNode = get(fromId);
+		String n = origNode.getName();
+		if (n.equals(toName)) return origNode;
+
+		String p = origNode.getParentPath() + toName;
+		ResourceNode node = getWithPath(p);
+		if (node != null) throw new RegistryAccessException("Duplicated node path: " + p);
+
+		origNode.setName(toName);
+		origNode.setPath(p);
+		getSession().update(origNode);
+		return origNode;
 	}
 	
-	public ResourceNode move(String fromPath, String toPath) throws RegistryAccessException {
-		throw new RuntimeException("Not implemented.");
+	public ResourceNode move(String fromId, String toPath) throws RegistryAccessException {
+		ResourceNode origNode = get(fromId);
+		String op = origNode.getPath();
+		if (op.equals(toPath)) return origNode;
+
+		String p = toPath;
+		if (!StringUtils.hasText(p)) p = ResourceNode.SEPARATOR;
+		if (!p.endsWith(ResourceNode.SEPARATOR)) p += ResourceNode.SEPARATOR;
+		String fp = p + origNode.getName();
+
+		ResourceNode node = getWithPath(fp);
+		if (node != null) throw new RegistryAccessException("Duplicated node path: " + fp);
+
+		origNode.setPath(p);
+		getSession().update(origNode);
+		return origNode;
 	}
 
 	public void setIdGenerator(IdGenerator idGenerator) {
