@@ -18,6 +18,6 @@
 	<property name="idGenerator" value="#{getObject('idGenerator')?:(getObject('resUuidGenerator')?:null)}"></property>
 </bean>
 
-<alias name="preferenceManagerH4" alias="preferenceManager"/>
+<alias name="resourceManagerH4" alias="resourceManager"/>
 
 </beans>

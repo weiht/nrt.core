@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.necros.registry.ResourceNode"
+			table="conf_sys_resources">
+		<id name="id" column="resource_id" type="string" length="64"></id>
+		<property name="parentPath" column="parent_path" type="string" length="2000"></property>
+		<property name="path" column="resource_path" type="string" length="2000"></property>
+		<property name="name" column="resource_name" type="string" length="200"></property>
+		<property name="nodeType" column="node_type">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">java.lang.Enum</param>
+			</type>
+		</property>
+		<property name="size" column="content_size" type="int"></property>
+		<property name="description" column="resource_description" type="string" length="200"></property>
+		<property name="type" column="data_type" type="int"></property>
+		<property name="longValue" column="long_value" type="long"></property>
+		<property name="doubleValue" column="double_value" type="double"></property>
+		<property name="stringValue" column="string_value" type="string" length="200"></property>
+		<property name="longText" column="long_text" type="text"></property>
+		<property name="binValue" column="bin_value" type="long"></property>
+	</class>
+</hibernate-mapping>

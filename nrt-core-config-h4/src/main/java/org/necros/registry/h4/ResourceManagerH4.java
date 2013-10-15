@@ -1,4 +1,4 @@
-package org.necros.registry;
+package org.necros.registry.h4;
 
 import java.util.List;
 
