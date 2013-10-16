@@ -11,12 +11,18 @@
 		<property name="name" column="resource_name" type="string" length="200"></property>
 		<property name="nodeType" column="node_type">
 			<type name="org.hibernate.type.EnumType">
-				<param name="enumClass">java.lang.Enum</param>
+				<param name="enumClass">org.necros.registry.NodeType</param>
+				<param name="type">12</param>
 			</type>
 		</property>
 		<property name="size" column="content_size" type="int"></property>
 		<property name="description" column="resource_description" type="string" length="200"></property>
-		<property name="type" column="data_type" type="int"></property>
+		<property name="type" column="data_type">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">org.necros.registry.ContentType</param>
+				<param name="type">12</param>
+			</type>
+		</property>
 		<property name="longValue" column="long_value" type="long"></property>
 		<property name="doubleValue" column="double_value" type="double"></property>
 		<property name="stringValue" column="string_value" type="string" length="200"></property>
