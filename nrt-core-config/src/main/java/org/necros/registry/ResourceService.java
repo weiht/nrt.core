@@ -13,12 +13,6 @@ public interface ResourceService {
 	public abstract Pager<ResourceNode> pageRoot(Pager<ResourceNode> page);
 	public abstract int countFilteredRoot(String filterText);
 	public abstract Pager<ResourceNode> pageFilteredRoot(String filterText, Pager<ResourceNode> page);
-	public abstract List<ResourceNode> childrenOf(ResourceNode parent);
-	public abstract List<ResourceNode> filteredChildrenOf(String filterText, ResourceNode parent);
-	public abstract int countChildrenOf(ResourceNode parent);
-	public abstract Pager<ResourceNode> pageChildrenOf(ResourceNode parent, Pager<ResourceNode> page);
-	public abstract int countFilteredChildrenOf(String filterText, ResourceNode parent);
-	public abstract Pager<ResourceNode> pageFilteredChildrenOf(String filterText, ResourceNode parent, Pager<ResourceNode> page);
 	public abstract List<ResourceNode> children(String path);
 	public abstract List<ResourceNode> filteredChildren(String filterText, String path);
 	public abstract int countChildren(String path);

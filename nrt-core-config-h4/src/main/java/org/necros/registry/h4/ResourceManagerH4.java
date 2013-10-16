@@ -29,14 +29,20 @@ public class ResourceManagerH4 implements ResourceManager {
 	}
 	
 	private Criteria createCriteria() {
-		return getSession().createCriteria(clazz)
+		return getSession().createCriteria(clazz);
+	}
+
+	private Criteria ordered(Criteria c) {
+		return c
 				.addOrder(Order.asc("path"));
 	}
 
 	private Criteria filtered(Criteria c, String filterText) {
 		return c
-			.add(Restrictions.like("path", filterText, MatchMode.ANYWHERE))
-			.add(Restrictions.like("description", filterText, MatchMode.ANYWHERE));
+			.add(Restrictions.or(
+				Restrictions.like("name", filterText, MatchMode.ANYWHERE),
+				Restrictions.like("description", filterText, MatchMode.ANYWHERE))
+			);
 	}
 
 	private int doCount(Criteria c) {
@@ -46,7 +52,7 @@ public class ResourceManagerH4 implements ResourceManager {
 
 	@SuppressWarnings("rawtypes")
 	public Pager doPage(Criteria c, Pager p) {
-		p.setResult(c.setFirstResult(p.getQueryFirst())
+		p.setResult(ordered(c).setFirstResult(p.getQueryFirst())
 			.setFetchSize(p.getPageSize())
 			.setMaxResults(p.getPageSize())
 			.list());
@@ -67,18 +73,18 @@ public class ResourceManagerH4 implements ResourceManager {
 
 	private Criteria rootCriteria(Criteria c) {
 		return c
-			.add(Restrictions.eqOrIsNull("parentPath", ResourceNode.SEPARATOR));
+			.add(Restrictions.eq("parentPath", ResourceNode.SEPARATOR));
 	}
 
 	@SuppressWarnings("unckecked")
 	public List<ResourceNode> root() {
-		return rootCriteria(createCriteria())
+		return ordered(rootCriteria(createCriteria()))
 			.list();
 	}
 
 	@SuppressWarnings("unckecked")
 	public List<ResourceNode> filteredRoot(String filterText) {
-		return filtered(rootCriteria(createCriteria()), filterText)
+		return ordered(filtered(rootCriteria(createCriteria()), filterText))
 			.list();
 	}
 	
@@ -103,47 +109,24 @@ public class ResourceManagerH4 implements ResourceManager {
 	}
 
 	private Criteria childrenCriteria(Criteria c, String parentPath) {
+		if (!StringUtils.hasText(parentPath))
+			return rootCriteria(c);
+		String p = parentPath;
+		if (!p.startsWith(ResourceNode.SEPARATOR)) p = ResourceNode.SEPARATOR + p;
+		if (!p.endsWith(ResourceNode.SEPARATOR)) p = p + ResourceNode.SEPARATOR;
 		return c
-			.add(Restrictions.eq("parentPath", parentPath));
-	}
-	
-	@SuppressWarnings("unckecked")
-	public List<ResourceNode> childrenOf(ResourceNode parent) {
-		return children(parent.getPath());
-	}
-	
-	@SuppressWarnings("unckecked")
-	public List<ResourceNode> filteredChildrenOf(String filterText, ResourceNode parent) {
-		return filteredChildren(parent.getPath(), filterText);
-	}
-	
-	public int countChildrenOf(ResourceNode parent) {
-		return countChildren(parent.getPath());
-	}
-	
-	@SuppressWarnings("unckecked")
-	public Pager<ResourceNode> pageChildrenOf(ResourceNode parent, Pager<ResourceNode> page) {
-		return pageChildren(parent.getPath(), page);
-	}
-	
-	public int countFilteredChildrenOf(String filterText, ResourceNode parent) {
-		return countFilteredChildren(filterText, parent.getPath());
-	}
-	
-	@SuppressWarnings("unckecked")
-	public Pager<ResourceNode> pageFilteredChildrenOf(String filterText, ResourceNode parent, Pager<ResourceNode> page) {
-		return pageFilteredChildren(filterText, parent.getPath(), page);
+			.add(Restrictions.eq("parentPath", p));
 	}
 	
 	@SuppressWarnings("unckecked")
 	public List<ResourceNode> children(String path) {
-		return childrenCriteria(createCriteria(), path)
+		return ordered(childrenCriteria(createCriteria(), path))
 			.list();
 	}
 	
 	@SuppressWarnings("unckecked")
 	public List<ResourceNode> filteredChildren(String filterText, String path) {
-		return filtered(childrenCriteria(createCriteria(), path), filterText)
+		return ordered(filtered(childrenCriteria(createCriteria(), path), filterText))
 			.list();
 	}
 	
@@ -174,15 +157,60 @@ public class ResourceManagerH4 implements ResourceManager {
 			node.setParentPath(ResourceNode.SEPARATOR);
 		}
 		String ppath = node.getParentPath();
+		if (!ppath.startsWith(ResourceNode.SEPARATOR)) {
+			ppath = ResourceNode.SEPARATOR + ppath;
+		}
 		if (!ppath.endsWith(ResourceNode.SEPARATOR)) {
 			ppath = ppath + ResourceNode.SEPARATOR;
-			node.setParentPath(ppath);
 		}
+		node.setParentPath(ppath);
 
 		String path = ppath + node.getName();
 		if (getWithPath(path) != null) throw new RegistryAccessException("Duplicated node path: " + path);
 
 		node.setPath(path);
+
+		switch (node.getType()) {
+			case Long:
+				node.setSize(8);
+				break;
+			case Double:
+				node.setSize(8);
+				break;
+			case String:
+				node.setSize(StringUtils.hasText(node.getStringValue())
+					? node.getStringValue().length()
+					: 0);
+				break;
+			case Clob:
+				node.setSize(StringUtils.hasText(node.getLongText())
+					? node.getLongText().length()
+					: 0);
+				break;
+			case Blob:
+				node.setSize(node.getBinValue() != null
+					? node.getBinValue().length
+					: 0);
+				break;
+			case Url:
+				node.setSize(StringUtils.hasText(node.getStringValue())
+					? node.getStringValue().length()
+					: 0);
+				break;
+			case File:
+				node.setSize(node.getBinValue() != null
+					? node.getBinValue().length
+					: 0);
+				break;
+			case Serialized:
+				node.setSize(node.getBinValue() != null
+					? node.getBinValue().length
+					: 0);
+				break;
+			default:
+				break;
+		}
+
 		getSession().save(node);
 		return node;
 	}
@@ -248,7 +276,6 @@ public class ResourceManagerH4 implements ResourceManager {
 				break;
 			default:
 				break;
-
 		}
 		getSession().update(origNode);
 		return origNode;
@@ -256,6 +283,8 @@ public class ResourceManagerH4 implements ResourceManager {
 	
 	public ResourceNode rename(String fromId, String toName) throws RegistryAccessException {
 		ResourceNode origNode = get(fromId);
+		if (origNode == null) throw new RegistryAccessException("No such node found: " + fromId);
+		
 		String n = origNode.getName();
 		if (n.equals(toName)) return origNode;
 
@@ -271,18 +300,20 @@ public class ResourceManagerH4 implements ResourceManager {
 	
 	public ResourceNode move(String fromId, String toPath) throws RegistryAccessException {
 		ResourceNode origNode = get(fromId);
-		String op = origNode.getPath();
-		if (op.equals(toPath)) return origNode;
+		if (origNode == null) throw new RegistryAccessException("No such node found: " + fromId);
 
 		String p = toPath;
 		if (!StringUtils.hasText(p)) p = ResourceNode.SEPARATOR;
 		if (!p.endsWith(ResourceNode.SEPARATOR)) p += ResourceNode.SEPARATOR;
-		String fp = p + origNode.getName();
+		String op = origNode.getParentPath();
+		if (op.equals(p)) return origNode;
 
+		String fp = p + origNode.getName();
 		ResourceNode node = getWithPath(fp);
 		if (node != null) throw new RegistryAccessException("Duplicated node path: " + fp);
 
-		origNode.setPath(p);
+		origNode.setParentPath(p);
+		origNode.setPath(fp);
 		getSession().update(origNode);
 		return origNode;
 	}
