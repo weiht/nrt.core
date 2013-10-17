@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.necros.dict.Category"
+			table="conf_dict_categories">
+		<id name="name" column="name" type="string" length="200"></id>
+		<property name="valueType" column="value_type">
+			<type name="org.hibernate.type.EnumType">
+				<param name="enumClass">org.necros.dict.ValueType</param>
+				<param name="type">12</param>
+			</type>
+		</property>
+		<property name="description" column="resource_description" type="string" length="200"></property>
+	</class>
+	<class name="org.necros.dict.Entry"
+			table="conf_dict_entries">
+		<composite-id>
+			<key-property name="value" column="entry_value" type="string" length="200"></key-property>
+			<key-property name="categoryName" column="category_name" type="string" length="200"></key-property>
+		</composite-id>
+		<property name="status" column="usable_status" type="string" length="20"></property>
+		<property name="displayText" column="display_text" type="string" length="200"></property>
+		<property name="displayOrder" column="display_order" type="int"></property>
+		<property name="description" column="entry_description" type="string" length="200"></property>
+	</class>
+</hibernate-mapping>

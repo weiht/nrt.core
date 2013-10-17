@@ -20,4 +20,25 @@
 
 <alias name="resourceManagerH4" alias="resourceManager"/>
 
+<bean name="dictionaryServiceH4" class="org.necros.dict.h4.DictionaryServiceH4">
+	<property name="sessionFactory" value="#{getObject('configSessionFactory')?:(getObject('sessionFactory')?:null)}"></property>
+</bean>
+
+<alias name="dictionaryServiceH4" alias="dictionaryService"/>
+
+<bean name="categoryManagerH4" class="org.necros.dict.h4.CategoryManagerH4">
+	<property name="sessionFactory" value="#{getObject('configSessionFactory')?:(getObject('sessionFactory')?:null)}"></property>
+	<property name="dictionaryService" ref="dictionaryServiceH4"/>
+	<property name="entryManager" ref="entryManagerH4"/>
+</bean>
+
+<bean name="entryManagerH4" class="org.necros.dict.h4.EntryManagerH4">
+	<property name="sessionFactory" value="#{getObject('configSessionFactory')?:(getObject('sessionFactory')?:null)}"></property>
+	<property name="dictionaryService" ref="dictionaryServiceH4"/>
+	<property name="categoryManager" ref="categoryManagerH4"/>
+</bean>
+
+<alias name="categoryManagerH4" alias="categoryManager"/>
+<alias name="entryManagerH4" alias="entryManager"/>
+
 </beans>

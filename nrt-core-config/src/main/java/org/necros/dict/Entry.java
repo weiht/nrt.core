@@ -1,6 +1,8 @@
 package org.necros.dict;
 
-public class Entry {
+import java.io.Serializable;
+
+public class Entry implements Serializable {
 	public static final String STATUS_DISABLED = "disabled";
 	
 	private String categoryName;

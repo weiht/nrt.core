@@ -9,7 +9,6 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import org.necros.data.IdGenerator;
@@ -50,7 +49,7 @@ public class ResourceManagerH4 implements ResourceManager {
 			.uniqueResult()).intValue();
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("unckecked")
 	public Pager doPage(Criteria c, Pager p) {
 		p.setResult(ordered(c).setFirstResult(p.getQueryFirst())
 			.setFetchSize(p.getPageSize())

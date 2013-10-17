@@ -12,6 +12,8 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.util.StringUtils;
 
+import org.necros.paging.Pager;
+
 public class SessionFactoryHelper {
 	private SessionFactory factory;
 
@@ -33,6 +35,18 @@ public class SessionFactoryHelper {
 
 	public Criteria createCriteriaForEntity(String entityName) {
 		return getSession().createCriteria(entityName);
+	}
+
+	public Criteria displayOrder(Criteria c) {
+		return c.addOrder(Order.asc("displayOrder"));
+	}
+
+	public Pager page(Criteria c, Pager p) {
+		p.setResult(c.setFirstResult(p.getQueryFirst())
+			.setFetchSize(p.getPageSize())
+			.setMaxResults(p.getPageSize())
+			.list());
+		return p;
 	}
 
 	public int count(Criteria c) {
