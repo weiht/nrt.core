@@ -1,10 +1,13 @@
 package org.necros.dict;
 
 public class Entry {
+	public static final String STATUS_DISABLED = "disabled";
+	
 	private String categoryName;
 	private String value;
 	private String displayText;
 	private Integer displayOrder;
+	private String status;
 	private String description;
 
 	public void setCategoryName(String categoryName) {
@@ -37,6 +40,14 @@ public class Entry {
 
 	public Integer getDisplayOrder() {
 		return this.displayOrder;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getStatus() {
+		return this.status;
 	}
 
 	public void setDescription(String description) {

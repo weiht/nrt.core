@@ -5,6 +5,7 @@ import java.util.List;
 import org.necros.paging.Pager;
 
 public interface DictionaryService {
+	public abstract Entry getEntry(String category, String value);
 	public abstract List<Entry> allEntries(String category);
 	public abstract int countAllEntries(String category);
 	public abstract Pager<Entry> pageAllEntries(String category, Pager<Entry> page);
