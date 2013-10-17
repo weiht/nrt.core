@@ -15,6 +15,7 @@
 		<module>nrt-core-caching</module>
 		<module>nrt-core-util</module>
 		<module>nrt-core-config</module>
+		<module>nrt-core-h4</module>
 		<module>nrt-core-config-h4</module>
 	</modules>
  
