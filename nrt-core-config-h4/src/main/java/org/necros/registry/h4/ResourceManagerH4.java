@@ -146,7 +146,7 @@ public class ResourceManagerH4 implements ResourceManager {
 	
 	@SuppressWarnings("unckecked")
 	public Pager<ResourceNode> pageFilteredChildren(String filterText, String path, Pager<ResourceNode> page) {
-		page.setRecordCount(countChildren(path));
+		page.setRecordCount(countFilteredChildren(filterText, path));
 		return doPage(filtered(childrenCriteria(createCriteria(), path), filterText), page);
 	}
 	

@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.necros.paging.Pager;
 import org.necros.registry.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -151,12 +152,68 @@ public class ResourceManagerH4Test {
 		assertEquals(2, cnt);
 	}
 
+	private void addRoot(String name) throws RegistryAccessException {
+		ResourceNode n;
+		n = new ResourceNode();
+		n.setName(name);
+		n.setNodeType(NodeType.Folder);
+		n.setType(ContentType.None);
+		resourceManager.add(n);
+		orgId = n.getId();
+		debugNode(n);
+	}
+
 	/**
 	 * Test method for {@link org.necros.registry.h4.ResourceManagerH4#pageRoot(org.necros.paging.Pager)}.
 	 */
 	@Test @Transactional
-	public void testPageRoot() {
-		fail("Not yet implemented");
+	public void testPageRoot() throws RegistryAccessException {
+		for (int i = 1; i < 50; i ++) {
+			addRoot("root" + i);
+		}
+
+		List<ResourceNode> result;
+		Pager<ResourceNode> page;
+		page = new Pager<ResourceNode>();
+		page = resourceManager.pageRoot(page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(10, result.size());
+		assertEquals(6, page.getPageCount());
+		page.setPageNum(6);
+		page = resourceManager.pageRoot(page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(1, result.size());
+		page.setPageNum(7);
+		page = resourceManager.pageRoot(page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(0, result.size());
+		page.setPageNum(-1);
+		page = resourceManager.pageRoot(page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(10, result.size());
+		assertEquals(1, page.getPageNum());
+		// Minimal page size is 2.
+		page.setPageSize(1);
+		page = resourceManager.pageRoot(page);
+		assertNotNull(page);
+		assertEquals(26, page.getPageCount());
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(2, result.size());
+		page.setPageNum(26);
+		page = resourceManager.pageRoot(page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(1, result.size());
 	}
 
 	/**
@@ -177,8 +234,54 @@ public class ResourceManagerH4Test {
 	 * Test method for {@link org.necros.registry.h4.ResourceManagerH4#pageFilteredRoot(java.lang.String, org.necros.paging.Pager)}.
 	 */
 	@Test @Transactional
-	public void testPageFilteredRoot() {
-		fail("Not yet implemented");
+	public void testPageFilteredRoot() throws RegistryAccessException {
+		for (int i = 1; i < 50; i ++) {
+			addRoot("root" + i);
+		}
+
+		List<ResourceNode> result;
+		Pager<ResourceNode> page;
+		String filterText = "oo";
+		page = new Pager<ResourceNode>();
+		page = resourceManager.pageFilteredRoot(filterText, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(10, result.size());
+		assertEquals(5, page.getPageCount());
+		page.setPageNum(5);
+		page = resourceManager.pageFilteredRoot(filterText, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(9, result.size());
+		page.setPageNum(7);
+		page = resourceManager.pageFilteredRoot(filterText, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(0, result.size());
+		page.setPageNum(-1);
+		page = resourceManager.pageFilteredRoot(filterText, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(10, result.size());
+		assertEquals(1, page.getPageNum());
+		// Minimal page size is 2.
+		page.setPageSize(1);
+		page = resourceManager.pageFilteredRoot(filterText, page);
+		assertNotNull(page);
+		assertEquals(25, page.getPageCount());
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(2, result.size());
+		page.setPageNum(25);
+		page = resourceManager.pageFilteredRoot(filterText, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(1, result.size());
 	}
 
 	/**
@@ -276,12 +379,70 @@ public class ResourceManagerH4Test {
 		assertEquals(0, cnt);
 	}
 
+	private void addChild(String parentPath, String name) throws RegistryAccessException {
+		ResourceNode n;
+		n = new ResourceNode();
+		n.setParentPath(parentPath);
+		n.setName(name);
+		n.setNodeType(NodeType.Folder);
+		n.setType(ContentType.None);
+		resourceManager.add(n);
+		orgId = n.getId();
+		debugNode(n);
+	}
+
 	/**
 	 * Test method for {@link org.necros.registry.h4.ResourceManagerH4#pageChildren(java.lang.String, org.necros.paging.Pager)}.
 	 */
 	@Test @Transactional
-	public void testPageChildren() {
-		fail("Not yet implemented");
+	public void testPageChildren() throws RegistryAccessException {
+		String parentPath = "/tv/";
+		for (int i = 1; i < 50; i ++) {
+			addChild(parentPath, "child" + i);
+		}
+
+		List<ResourceNode> result;
+		Pager<ResourceNode> page;
+		page = new Pager<ResourceNode>();
+		page = resourceManager.pageChildren(parentPath, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(10, result.size());
+		assertEquals(5, page.getPageCount());
+		page.setPageNum(5);
+		page = resourceManager.pageChildren(parentPath, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(9, result.size());
+		page.setPageNum(6);
+		page = resourceManager.pageChildren(parentPath, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(0, result.size());
+		page.setPageNum(-1);
+		page = resourceManager.pageChildren(parentPath, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(10, result.size());
+		assertEquals(1, page.getPageNum());
+		// Minimal page size is 2.
+		page.setPageSize(1);
+		page = resourceManager.pageChildren(parentPath, page);
+		assertNotNull(page);
+		assertEquals(25, page.getPageCount());
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(2, result.size());
+		page.setPageNum(25);
+		page = resourceManager.pageChildren(parentPath, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(1, result.size());
 	}
 
 	/**
@@ -312,8 +473,55 @@ public class ResourceManagerH4Test {
 	 * Test method for {@link org.necros.registry.h4.ResourceManagerH4#pageFilteredChildren(java.lang.String, java.lang.String, org.necros.paging.Pager)}.
 	 */
 	@Test @Transactional
-	public void testPageFilteredChildren() {
-		fail("Not yet implemented");
+	public void testPageFilteredChildren() throws RegistryAccessException {
+		String parentPath = "/tv/";
+		for (int i = 1; i < 50; i ++) {
+			addChild(parentPath, "child" + i);
+		}
+
+		List<ResourceNode> result;
+		Pager<ResourceNode> page;
+		String filterText = "d1";
+		page = new Pager<ResourceNode>();
+		page = resourceManager.pageFilteredChildren(filterText, parentPath, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(10, result.size());
+		assertEquals(2, page.getPageCount());
+		page.setPageNum(2);
+		page = resourceManager.pageFilteredChildren(filterText, parentPath, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(1, result.size());
+		page.setPageNum(3);
+		page = resourceManager.pageFilteredChildren(filterText, parentPath, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(0, result.size());
+		page.setPageNum(-1);
+		page = resourceManager.pageFilteredChildren(filterText, parentPath, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(10, result.size());
+		assertEquals(1, page.getPageNum());
+		// Minimal page size is 2.
+		page.setPageSize(1);
+		page = resourceManager.pageFilteredChildren(filterText, parentPath, page);
+		assertNotNull(page);
+		assertEquals(6, page.getPageCount());
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(2, result.size());
+		page.setPageNum(6);
+		page = resourceManager.pageFilteredChildren(filterText, parentPath, page);
+		assertNotNull(page);
+		result = page.getResult();
+		assertNotNull(result);
+		assertEquals(1, result.size());
 	}
 
 	/**
