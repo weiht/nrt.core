@@ -17,7 +17,7 @@ public class SessionFactoryHelper {
 
 	private SessionFactoryHelper() {}
 
-	public SessionFactoryHelper getInstance(SessionFactory factory) {
+	public static SessionFactoryHelper getInstance(SessionFactory factory) {
 		SessionFactoryHelper instance = new SessionFactoryHelper();
 		instance.factory = factory;
 		return instance;

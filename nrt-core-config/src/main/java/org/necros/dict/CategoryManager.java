@@ -5,9 +5,9 @@ import java.util.List;
 import org.necros.paging.Pager;
 
 public interface CategoryManager {
-	public abstract Category add(Category category);
-	public abstract Category update(Category category);
-	public abstract Category remove(String name);
+	public abstract Category add(Category category) throws DictionaryException;
+	public abstract Category update(Category category) throws DictionaryException;
+	public abstract Category remove(String name) throws DictionaryException;
 	public abstract List<Category> all();
 	public abstract int countAll();
 	public abstract Pager<Category> pageAll(Pager<Category> page);

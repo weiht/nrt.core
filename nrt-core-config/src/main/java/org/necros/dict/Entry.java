@@ -4,6 +4,7 @@ public class Entry {
 	private String categoryName;
 	private String value;
 	private String displayText;
+	private Integer displayOrder;
 	private String description;
 
 	public void setCategoryName(String categoryName) {
@@ -28,6 +29,14 @@ public class Entry {
 
 	public String getDisplayText() {
 		return this.displayText;
+	}
+
+	public void setDisplayOrder(Integer displayOrder) {
+		this.displayOrder = displayOrder;
+	}
+
+	public Integer getDisplayOrder() {
+		return this.displayOrder;
 	}
 
 	public void setDescription(String description) {
