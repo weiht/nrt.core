@@ -1,5 +1,9 @@
 package org.necros.authz;
 
+import java.util.List;
+
+import org.necros.paging.Pager;
+
 public interface RoleManager {
 	public abstract Role get(String id);
 	public abstract Role getWithName(String name);
