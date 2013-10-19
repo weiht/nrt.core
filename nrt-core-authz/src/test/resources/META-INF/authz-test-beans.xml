@@ -20,6 +20,7 @@
         <bean class="org.necros.auth.Login">
             <property name="loginName" value="root"></property>
             <property name="password" value="toor"></property>
+            <property name="status" value="disabled"></property>
         </bean>
     </entry></map></property>
 </bean>

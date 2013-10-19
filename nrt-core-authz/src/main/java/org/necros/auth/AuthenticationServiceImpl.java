@@ -1,5 +1,6 @@
 package org.necros.auth;
 
+import org.necros.data.UsableStatuses;
 import org.springframework.util.StringUtils;
 
 public class AuthenticationServiceImpl
@@ -13,6 +14,10 @@ implements AuthenticationService {
 			return null;
 		Login login = loginManager.getWithName(loginName);
 		if (login == null) return null;
+		
+		String st = login.getStatus();
+		if (StringUtils.hasText(st) && !st.equals(UsableStatuses.USABLE)) return null;
+		
 		String cipher = passwordEncoder == null
 				? loginPassword
 				: passwordEncoder.encode(loginPassword, loginName, login);

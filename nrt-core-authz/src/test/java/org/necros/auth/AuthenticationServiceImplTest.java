@@ -39,6 +39,9 @@ public class AuthenticationServiceImplTest {
 		Login none;
 		none = authService.authenticate("none", "none");
 		assertNull(none);
+		Login root;
+		root = authService.authenticate("root", "toor");
+		assertNull(root);
 	}
 
 	@Test
