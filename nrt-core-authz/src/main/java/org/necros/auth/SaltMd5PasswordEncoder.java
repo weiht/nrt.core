@@ -23,9 +23,13 @@ public class SaltMd5PasswordEncoder implements PasswordEncoder {
 	
 	public String encode(String passwd, String login, Object salt) {
 		String saltStr = login;
-		if (salt instanceof Login) {
+		if (salt == null) {
+			saltStr = login;
+		} else if (salt instanceof Login) {
 			Login l = (Login)salt;
 			saltStr = l.getId();
+		} else {
+			saltStr = salt.toString();
 		}
 		String toEncode = passwd + login + saltStr;
 		MessageDigest md5 = getMd5();
