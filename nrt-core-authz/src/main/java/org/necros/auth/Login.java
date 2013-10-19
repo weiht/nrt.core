@@ -2,6 +2,7 @@ package org.necros.auth;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Login implements Serializable {
 	private String id;
 	private String loginName;
