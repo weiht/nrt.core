@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+<bean name="saltMd5PasswordEncoder" class="org.necros.auth.SaltMd5PasswordEncoder">
+</bean>
+
+<alias name="saltMd5PasswordEncoder" alias="passwordEncoder"/>
+
+<bean name="charRangePasswordGenerator" class="org.necros.auth.CharRangePasswordGenerator">
+</bean>
+
+<alias name="charRangePasswordGenerator" alias="passwordGenerator"/>
+
+<bean name="defaultAuthenticationService" class="org.necros.auth.AuthenticationServiceImpl">
+    <property name="passwordEncoder" ref="passwordEncoder"></property>
+    <property name="loginManager" value="#{getObject('loginManager')?:null}"></property>
+</bean>
+
+</beans>

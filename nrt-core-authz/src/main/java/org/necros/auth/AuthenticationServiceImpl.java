@@ -1,5 +1,7 @@
 package org.necros.auth;
 
+import org.springframework.util.StringUtils;
+
 public class AuthenticationServiceImpl
 implements AuthenticationService {
 	private LoginManager loginManager;
@@ -7,6 +9,8 @@ implements AuthenticationService {
 
 	@Override
 	public Login authenticate(String loginName, String loginPassword) {
+		if (!StringUtils.hasText(loginName) || !StringUtils.hasText(loginName))
+			return null;
 		Login login = loginManager.getWithName(loginName);
 		if (login == null) return null;
 		String cipher = passwordEncoder == null
@@ -36,5 +40,9 @@ implements AuthenticationService {
 
 	public void setLoginManager(LoginManager loginManager) {
 		this.loginManager = loginManager;
+	}
+
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
 	}
 }
