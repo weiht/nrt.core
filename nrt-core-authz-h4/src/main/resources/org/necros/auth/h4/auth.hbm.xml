@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.necros.auth.Login"
+			table="auth_logins">
+		<id name="id" column="login_id" type="string" length="64"></id>
+        <property name="loginName" column="login_name" type="string" length="200"></property>
+        <property name="password" column="login_password" type="string" length="64"></property>
+        <property name="status" column="usable_status" type="string" length="20"></property>
+	</class>
+</hibernate-mapping>
