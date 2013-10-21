@@ -6,9 +6,11 @@ import org.necros.auth.AuthException;
 import org.necros.auth.Login;
 import org.necros.auth.LoginManager;
 import org.necros.auth.PasswordGenerator;
+import org.necros.auth.PasswordEncoder;
 import org.necros.data.IdGenerator;
 import org.necros.data.UsableStatuses;
 import org.necros.data.h4.SessionFactoryHelper;
+import org.springframework.util.StringUtils;
 
 public class LoginManagerH4 implements LoginManager {
 	private static final Class<Login> CLAZZ = Login.class;
@@ -37,7 +39,7 @@ public class LoginManagerH4 implements LoginManager {
 		login.setId((String) idGenerator.generate());
 		String pwd = login.getPassword();
 		if (StringUtils.hasText(pwd) && passwordEncoder != null) {
-			login.setPassword(passwordEncoder.encode(pwd));
+			login.setPassword(passwordEncoder.encode(pwd, login.getLoginName(), login));
 		}
 		helper.getSession().save(login);
 		return login;
@@ -79,7 +81,7 @@ public class LoginManagerH4 implements LoginManager {
 		
 		String passwd = passwordGenerator.generate();
 		if (passwordEncoder != null) {
-			passwd = passwordEncoder.encode(passwd);
+			passwd = passwordEncoder.encode(passwd, loginName, orig);
 		}
 		orig.setPassword(passwd);
 		helper.getSession().update(orig);
