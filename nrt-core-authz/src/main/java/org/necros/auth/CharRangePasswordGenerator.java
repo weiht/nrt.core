@@ -40,8 +40,8 @@ public class CharRangePasswordGenerator implements PasswordGenerator {
 	}
 
 	private synchronized void ensureChars() {
-		StringBuilder buff = new StringBuilder();
 		if (chars == null) {
+			StringBuilder buff = new StringBuilder();
 			if (ranges == null || ranges.isEmpty()) {
 				appendCharRange(buff, POSSIBLE_PASSWORD_CHARS);
 			} else {
@@ -49,9 +49,9 @@ public class CharRangePasswordGenerator implements PasswordGenerator {
 					appendCharRange(buff, r);
 				}
 			}
+			chars = new char[buff.length()];
+			buff.getChars(0, buff.length(), chars, 0);
 		}
-		chars = new char[buff.length()];
-		buff.getChars(0, buff.length(), chars, 0);
 	}
 	
 	private void appendCharRange(StringBuilder buff, CharRange r) {
