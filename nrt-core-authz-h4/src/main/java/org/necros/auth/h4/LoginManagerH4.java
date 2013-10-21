@@ -16,6 +16,7 @@ public class LoginManagerH4 implements LoginManager {
 	private SessionFactoryHelper helper;
 	private IdGenerator idGenerator;
 	private PasswordGenerator passwordGenerator;
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public Login get(String id) {
@@ -34,6 +35,10 @@ public class LoginManagerH4 implements LoginManager {
 		Login orig = getWithName(login.getLoginName());
 		if (orig != null) throw new AuthException("Duplicated loginName.");
 		login.setId((String) idGenerator.generate());
+		String pwd = login.getPassword();
+		if (StringUtils.hasText(pwd) && passwordEncoder != null) {
+			login.setPassword(passwordEncoder.encode(pwd));
+		}
 		helper.getSession().save(login);
 		return login;
 	}
@@ -73,6 +78,9 @@ public class LoginManagerH4 implements LoginManager {
 		if (orig == null) return null;
 		
 		String passwd = passwordGenerator.generate();
+		if (passwordEncoder != null) {
+			passwd = passwordEncoder.encode(passwd);
+		}
 		orig.setPassword(passwd);
 		helper.getSession().update(orig);
 		return passwd;
@@ -89,5 +97,9 @@ public class LoginManagerH4 implements LoginManager {
 
 	public void setPasswordGenerator(PasswordGenerator passwordGenerator) {
 		this.passwordGenerator = passwordGenerator;
+	}
+
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
 	}
 }

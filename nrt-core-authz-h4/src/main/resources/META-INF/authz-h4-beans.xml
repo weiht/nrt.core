@@ -10,6 +10,7 @@
     <property name="sessionFactory" value="#{getObject('authzSessionFactory')?:(getObject('sessionFactory')?:null)}"></property>
     <property name="idGenerator" ref="idGenerator"></property>
     <property name="passwordGenerator" ref="passwordGenerator"></property>
+    <property name="passwordEncoder" ref="passwordEncoder"></property>
 </bean>
 
 <alias name="loginManagerH4" alias="loginManager"/>
