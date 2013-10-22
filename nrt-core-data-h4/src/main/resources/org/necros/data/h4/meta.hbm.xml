@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.necros.data.MetaPackage"
+			table="data_meta_packages">
+		<id name="id" column="obj_id" type="string" length="64"></id>
+		<property name="parentPath" column="parent_path" type="string" length="2000"></property>
+		<property name="path" column="pkg_path" type="string" length="2000"></property>
+		<property name="name" column="pkg_name" type="string" length="50"></property>
+		<property name="description" column="pkg_description" type="string" length="200"></property>
+	</class>
+</hibernate-mapping>

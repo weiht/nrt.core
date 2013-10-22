@@ -11,4 +11,9 @@
 
 <alias name="basicObjectServiceH4" alias="basicObjectService"/>
 
+<bean name="metaPackageManagerH4" class="org.necros.data.h4.MetaPackageManagerH4">
+	<property name="sessionFactory" value="#{getObject('dataSessionFactory')?:(getObject('sessionFactory')?:null)}"></property>
+	<property name="idGenerator" value="#{getObject('idGenerator')?:null}"></property>
+</bean>
+
 </beans>

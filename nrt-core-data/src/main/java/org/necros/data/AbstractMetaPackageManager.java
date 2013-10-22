@@ -6,7 +6,9 @@ import java.util.regex.Matcher;
 import org.springframework.util.StringUtils;
 
 public abstract class AbstractMetaPackageManager implements MetaPackageManager {
-	private Pattern pathPattern = Pattern.compile("^([\\d]+\\.)([\\d])+");
+	private Pattern pathPattern = Pattern.compile("^([\\w]+\\.)*([\\w])+$");
+
+	protected IdGenerator idGenerator;
 
 	protected abstract MetaPackage doGet(String path);
 	protected abstract MetaPackage doAdd(MetaPackage pkg);
@@ -62,6 +64,7 @@ public abstract class AbstractMetaPackageManager implements MetaPackageManager {
 		if (!validatePath(path)) throw new MetaDataAccessException("Invlaid MetaPackage path.");
 		mkdirs(path);
 		adjustPath(pkg);
+		pkg.setId((String)idGenerator.generate());
 		return doAdd(pkg);
 	}
 
@@ -80,5 +83,9 @@ public abstract class AbstractMetaPackageManager implements MetaPackageManager {
 
 		doRemove(origPkg);
 		return origPkg;
+	}
+
+	public void setIdGenerator(IdGenerator idGenerator) {
+		this.idGenerator = idGenerator;
 	}
 }
