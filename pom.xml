@@ -19,6 +19,7 @@
 		<module>nrt-core-authz</module>
 		<module>nrt-core-authz-h4</module>
 		<module>nrt-core-data</module>
+		<module>nrt-core-data-h4</module>
 		<module>nrt-core-config-h4</module>
 	</modules>
  

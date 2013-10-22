@@ -15,8 +15,7 @@ public class ObjectTouchLog implements Serializable {
 	private Long id;
 	private String objectId;
 	private String entity;
-	private String updatePersonId;
-	private String updatePersonName;
+	private String updaterId;
 	private Timestamp updateTime;
 	private String log;
 
@@ -44,24 +43,12 @@ public class ObjectTouchLog implements Serializable {
 		this.entity = entity;
 	}
 
-	public String getUpdatePersonId() {
-		return updatePersonId;
+	public String getUpdaterId() {
+		return updaterId;
 	}
 
-	public void setUpdatePersonId(String updatePersonId) {
-		this.updatePersonId = updatePersonId;
-	}
-
-	public String getUpdatePersonName() {
-		return updatePersonName;
-	}
-
-	public void setUpdatePersonName(String updatePersonName) {
-		this.updatePersonName = updatePersonName;
-	}
-
-	public Timestamp getUpdateTime() {
-		return updateTime;
+	public void setUpdaterId(String updaterId) {
+		this.updaterId = updaterId;
 	}
 
 	public void setUpdateTime(Timestamp updateTime) {
