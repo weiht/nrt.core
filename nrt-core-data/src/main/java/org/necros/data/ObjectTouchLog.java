@@ -51,6 +51,10 @@ public class ObjectTouchLog implements Serializable {
 		this.updaterId = updaterId;
 	}
 
+	public Timestamp getUpdateTime() {
+		return updateTime;
+	}
+
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
 	}

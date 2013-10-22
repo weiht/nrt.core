@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="org.necros.data.BasicObject"
+			table="data_basic_objects">
+		<id name="id" column="obj_id" type="string" length="64"></id>
+		<property name="entity" column="obj_entity" type="string" length="200"></property>
+		<property name="displayName" column="display_name" type="string" length="200"></property>
+		<property name="ownerId" column="owner_id" type="string" length="200"></property>
+		<property name="creatorId" column="creator_id" type="string" length="200"></property>
+		<property name="createTime" column="create_time" type="timestamp" length="200"></property>
+		<property name="updaterId" column="updater_id" type="string" length="200"></property>
+		<property name="updateTime" column="update_time" type="timestamp" length="200"></property>
+	</class>
+	<class name="org.necros.data.ObjectTouchLog"
+			table="data_basic_object_touch_log">
+		<id name="id" column="log_id" type="long" length="64">
+			<generator class="native"/>
+		</id>
+		<property name="objectId" column="obj_id" type="string" length="64"></property>
+		<property name="entity" column="obj_entity" type="string" length="200"></property>
+		<property name="updaterId" column="updater_id" type="string" length="200"></property>
+		<property name="updateTime" column="update_time" type="timestamp" length="200"></property>
+		<property name="log" column="log_text" type="text"></property>
+	</class>
+</hibernate-mapping>
