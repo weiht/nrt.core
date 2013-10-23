@@ -13,6 +13,7 @@ public abstract class AbstractMetaPackageManager implements MetaPackageManager {
 	private Pattern pathPattern = Pattern.compile("^([\\w]+" + MetaPackage.SEPARATOR_REGEX + ")*([\\w])+$");
 
 	protected IdGenerator idGenerator;
+	protected MetaClassManager metaClassManager;
 
 	protected abstract MetaPackage doGet(String path);
 	protected abstract MetaPackage doAdd(MetaPackage pkg);
@@ -90,6 +91,19 @@ public abstract class AbstractMetaPackageManager implements MetaPackageManager {
 		return origPkg;
 	}
 
+	protected void moveClasses(String path) {
+		if (metaClassManager != null) {
+			for (MetaClass metaClazz: metaClassManager.all(path)) {
+				metaClazz.setMetaPackage(null);
+				try {
+					metaClassManager.moveTo(metaClazz.getId(), null);
+				} catch (Exception ex) {
+					logger.warn("Error moving MetaClass to null. \n{}", ex);
+				}
+			}
+		}
+	}
+
 	protected void removeChildren(String path) {
 		logger.debug("Removing children for [{}]...", path);
 		List<MetaPackage> pkgs = children(path);
@@ -102,6 +116,7 @@ public abstract class AbstractMetaPackageManager implements MetaPackageManager {
 	protected void removeTree(MetaPackage pkg) {
 		String path = pkg.getPath();
 		removeChildren(path);
+		moveClasses(path);
 		doRemove(pkg);
 	}
 
@@ -115,5 +130,9 @@ public abstract class AbstractMetaPackageManager implements MetaPackageManager {
 
 	public void setIdGenerator(IdGenerator idGenerator) {
 		this.idGenerator = idGenerator;
+	}
+
+	public void setMetaClassManager(MetaClassManager metaClassManager) {
+		this.metaClassManager = metaClassManager;
 	}
 }
