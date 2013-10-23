@@ -1,12 +1,16 @@
 package org.necros.data;
 
+import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 public abstract class AbstractMetaPackageManager implements MetaPackageManager {
-	private Pattern pathPattern = Pattern.compile("^([\\w]+\\.)*([\\w])+$");
+	private static final Logger logger = LoggerFactory.getLogger(AbstractMetaPackageManager.class);
+	private Pattern pathPattern = Pattern.compile("^([\\w]+" + MetaPackage.SEPARATOR_REGEX + ")*([\\w])+$");
 
 	protected IdGenerator idGenerator;
 
@@ -22,17 +26,22 @@ public abstract class AbstractMetaPackageManager implements MetaPackageManager {
 	}
 
 	protected void mkdirs(String path) {
-		String[] parts = path.split(MetaPackage.SEPARATOR);
+		String[] parts = path.split(MetaPackage.SEPARATOR_REGEX);
+		logger.debug("Making MetaPackage dirs, path: [{}], parts: [{}]", path, (Object)parts);
 		String dir = "", pdir = null;
 		for (int i = 0; i < parts.length - 1; i ++) {
 			if (dir.length() > 0) dir += MetaPackage.SEPARATOR;
 			dir += parts[i];
 			MetaPackage pkg = doGet(dir);
 			if (pkg == null) {
+				String name = parts[i];
+				logger.debug("Making MetaPackage dir: path=[{}], parent=[{}], name=[{}]",
+					dir, pdir, name);
 				pkg = new MetaPackage();
 				pkg.setPath(dir);
 				pkg.setParentPath(pdir);
-				pkg.setName(parts[i]);
+				pkg.setName(name);
+				pkg.setId((String)idGenerator.generate());
 				doAdd(pkg);
 			}
 			pdir = dir;
@@ -43,7 +52,7 @@ public abstract class AbstractMetaPackageManager implements MetaPackageManager {
 		String path = pkg.getPath();
 		String ppath = null;
 		String name = path;
-		int ix = path.indexOf(MetaPackage.SEPARATOR);
+		int ix = path.lastIndexOf(MetaPackage.SEPARATOR);
 		if (ix > 0) {
 			ppath = path.substring(0, ix);
 			name = path.substring(ix + 1);
@@ -62,9 +71,13 @@ public abstract class AbstractMetaPackageManager implements MetaPackageManager {
 		String path = pkg.getPath();
 		if (!StringUtils.hasText(path)) throw new MetaDataAccessException("No path specified for MetaPackage.");
 		if (!validatePath(path)) throw new MetaDataAccessException("Invlaid MetaPackage path.");
+		MetaPackage orig = doGet(path);
+		if (orig != null) throw new MetaDataAccessException("MetaPackage already exists: [" + path + "].");
 		mkdirs(path);
 		adjustPath(pkg);
 		pkg.setId((String)idGenerator.generate());
+		logger.debug("Do adding MetaPackage: path=[{}], parent=[{}], name=[{}]",
+			pkg.getPath(), pkg.getParentPath(), pkg.getName());
 		return doAdd(pkg);
 	}
 
@@ -77,11 +90,26 @@ public abstract class AbstractMetaPackageManager implements MetaPackageManager {
 		return origPkg;
 	}
 
+	protected void removeChildren(String path) {
+		logger.debug("Removing children for [{}]...", path);
+		List<MetaPackage> pkgs = children(path);
+		logger.debug("Children found: {}", pkgs);
+		for (MetaPackage pkg: pkgs) {
+			removeTree(pkg);
+		}
+	}
+
+	protected void removeTree(MetaPackage pkg) {
+		String path = pkg.getPath();
+		removeChildren(path);
+		doRemove(pkg);
+	}
+
 	public MetaPackage remove(String path) throws MetaDataAccessException {
 		MetaPackage origPkg = get(path);
 		if (origPkg == null) throw new MetaDataAccessException("Invlaid MetaPackage.");
 
-		doRemove(origPkg);
+		removeTree(origPkg);
 		return origPkg;
 	}
 

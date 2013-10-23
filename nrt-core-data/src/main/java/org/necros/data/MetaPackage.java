@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class MetaPackage implements Serializable {
 	public static final String SEPARATOR = ".";
+	public static final String SEPARATOR_REGEX = "\\.";
 	
 	private String id;
 	private String parentPath;
