@@ -10,7 +10,7 @@ public class MetaClass implements Serializable {
 	private String displayName;
 	private String tableName;
 	private String revision;
-	private String remarks;
+	private String description;
 	private List<MetaProperty> properties;
 	
 	public String getId() {
@@ -61,12 +61,12 @@ public class MetaClass implements Serializable {
 		this.revision = revision;
 	}
 	
-	public String getRemarks() {
-		return remarks;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 		
 	public List<MetaProperty> getProperties() {

@@ -11,4 +11,32 @@
 		<property name="name" column="pkg_name" type="string" length="50"></property>
 		<property name="description" column="pkg_description" type="string" length="200"></property>
 	</class>
+	<class name="org.necros.data.MetaClass"
+			table="data_meta_classes">
+		<id name="id" column="obj_id" type="string" length="64"></id>
+		<property name="name" column="class_name" type="string" length="50"></property>
+		<property name="displayName" column="display_name" type="string" length="50"></property>
+		<property name="tableName" column="table_name" type="string" length="50"></property>
+		<property name="metaPackage" column="meta_pacakge" type="string" length="2000"></property>
+		<property name="revision" column="class_revision" type="string" length="50"></property>
+		<property name="description" column="class_description" type="string" length="200"></property>
+		<set name="properties" inverse="true" cascade="all">
+			<key column="meta_class_id"/>
+			<one-to-many class="org.necros.data.MetaProperty" />
+		</set>
+	</class>
+	<class name="org.necros.data.MetaProperty"
+			table="data_meta_properties">
+		<id name="id" column="obj_id" type="string" length="64"></id>
+		<property name="name" column="prop_name" type="string" length="50"></property>
+		<property name="displayName" column="display_name" type="string" length="50"></property>
+		<property name="columnName" column="column_name" type="string" length="50"></property>
+		<property name="inputHint" column="input_hint" type="string" length="2000"></property>
+		<property name="displayType" column="display_type" type="string" length="50"></property>
+		<property name="dataType" column="data_type" type="string" length="50"></property>
+		<property name="description" column="class_description" type="string" length="200"></property>
+		<many-to-one name="metaClass" class="org.necros.data.MetaClass">
+			<column name="meta_class_id"></column>
+		</many-to-one>
+	</class>
 </hibernate-mapping>

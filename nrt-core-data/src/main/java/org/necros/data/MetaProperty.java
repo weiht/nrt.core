@@ -11,8 +11,7 @@ public class MetaProperty implements Serializable {
 	private String inputHint;
 	private String displayType;
 	private String dataType;
-	private String remarks;
-	private String usableStatus;
+	private String description;
 	
 	public String getId() {
 		return id;
@@ -78,18 +77,11 @@ public class MetaProperty implements Serializable {
 		this.dataType = dataType;
 	}
 
-	public String getRemarks() {
-		return remarks;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-	
-	public String getUsableStatus() {
-		return usableStatus;
-	}
-	public void setUsableStatus(String usableStatus) {
-		this.usableStatus = usableStatus;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }
