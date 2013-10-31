@@ -1,5 +1,6 @@
 package org.necros.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -27,6 +28,8 @@ public abstract class AbstractMetaClassManager implements MetaClassManager {
 	protected abstract MetaProperty doAddProperty(MetaClass clazz, MetaProperty prop);
 	protected abstract MetaProperty doRemoveProperty(MetaProperty prop);
 	protected abstract MetaProperty doUpdateProperty(MetaProperty prop);
+	protected abstract List<MetaClass> doFindAll(String pkg);
+	protected abstract List<MetaClass> doSearchInPackage(String pkg, String filterText);
 
 	protected boolean validateName(String name) {
 		if (!StringUtils.hasText(name)) return false;
@@ -69,7 +72,7 @@ public abstract class AbstractMetaClassManager implements MetaClassManager {
 
 	public MetaClass remove(String id) throws MetaDataAccessException {
 		MetaClass orig = get(id);
-		if (orig == null) throw new MetaDataAccessException("Invlaid MetaPackage.");
+		if (orig == null) throw new MetaDataAccessException("Invlaid MetaClass.");
 
 		doRemove(orig);
 		return orig;
@@ -114,6 +117,19 @@ public abstract class AbstractMetaClassManager implements MetaClassManager {
 		orig.setDescription(prop.getDescription());
 		return doUpdateProperty(prop);
 	}
+
+	public List<MetaClass> all(String pkg) {
+		if (StringUtils.hasText(pkg) && metaPackageManager.get(pkg) == null)
+			return new ArrayList<MetaClass>();
+		return doFindAll(pkg);
+	}
+
+	public List<MetaClass> searchInPackage(String pkg, String filterText) {
+		if (StringUtils.hasText(pkg) && metaPackageManager.get(pkg) == null)
+			return new ArrayList<MetaClass>();
+		return doSearchInPackage(pkg, filterText);
+	}
+
 
 	public void setMetaPackageManager(MetaPackageManager metaPackageManager) {
 		this.metaPackageManager = metaPackageManager;

@@ -16,4 +16,14 @@
 	<property name="idGenerator" value="#{getObject('idGenerator')?:null}"></property>
 </bean>
 
+<alias name="metaPackageManagerH4" alias="metaPackageManager"/>
+
+<bean name="metaClassManagerH4" class="org.necros.data.h4.MetaClassManagerH4">
+	<property name="sessionFactory" value="#{getObject('dataSessionFactory')?:(getObject('sessionFactory')?:null)}"></property>
+	<property name="idGenerator" value="#{getObject('idGenerator')?:null}"></property>
+	<property name="metaPackageManager" ref="metaPackageManager"></property>
+</bean>
+
+<alias name="metaClassManagerH4" alias="metaClassManager"/>
+
 </beans>
