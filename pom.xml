@@ -9,6 +9,7 @@
 
 	<properties>
 		<nrt-core-version>${project.version}</nrt-core-version>
+		<spring-version>3.2.4.RELEASE</spring-version>
 	</properties>
  
 	<modules>
