@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.util.StringUtils;
 
 import org.necros.data.MetaClass;
 import org.necros.data.MetaProperty;
@@ -22,6 +23,14 @@ public class MetaClassManagerH4 extends AbstractMetaClassManager {
 		return helper.getSession().createCriteria(CLS_CLASS);
 	}
 
+	private Criteria globalClassCriteria() {
+		return classCriteria().add(Restrictions.isNull("metaPackage"));
+	}
+
+	private Criteria packageClassCriteria(String pkg) {
+		return classCriteria().add(Restrictions.eq("metaPackage", pkg));
+	}
+
 	private Criteria propertyCriteria() {
 		return helper.getSession().createCriteria(CLS_PROOPERTY);
 	}
@@ -31,10 +40,15 @@ public class MetaClassManagerH4 extends AbstractMetaClassManager {
 	}
 
 	protected MetaClass doGetWithName(String pkg, String name) {
-		return (MetaClass) classCriteria()
-			.add(Restrictions.eq("metaPackage", pkg))
-			.add(Restrictions.eq("name", name))
-			.uniqueResult();
+		if (!StringUtils.hasText(pkg)) {
+			return (MetaClass) globalClassCriteria()
+				.add(Restrictions.eq("name", name))
+				.uniqueResult();
+		} else {
+			return (MetaClass) packageClassCriteria(pkg)
+				.add(Restrictions.eq("name", name))
+				.uniqueResult();
+		}
 	}
 
 	protected boolean clazzExists(String pkg, String name) {
@@ -94,9 +108,13 @@ public class MetaClassManagerH4 extends AbstractMetaClassManager {
 
 	@SuppressWarnings("unchecked")
 	protected List<MetaClass> doFindAll(String pkg) {
-		return classCriteria()
-			.add(Restrictions.eq("metaPackage", pkg))
-			.list();
+		if (StringUtils.hasText(pkg)) {
+			return packageClassCriteria(pkg)
+				.list();
+		} else {
+			return globalClassCriteria()
+				.list();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -107,8 +125,8 @@ public class MetaClassManagerH4 extends AbstractMetaClassManager {
 
 	@SuppressWarnings("unchecked")
 	protected List<MetaClass> doSearchInPackage(String pkg, String filterText) {
-		return helper.filterOnFieldArray(classCriteria(), filterText, filterFields)
-			.add(Restrictions.eq("metaPackage", pkg))
+		Criteria c = StringUtils.hasText(pkg) ? packageClassCriteria(pkg) : globalClassCriteria();
+		return helper.filterOnFieldArray(c, filterText, filterFields)
 			.list();
 	}
 

@@ -1,7 +1,8 @@
 package org.necros.data;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MetaClass implements Serializable {
 	private String id;
@@ -11,7 +12,7 @@ public class MetaClass implements Serializable {
 	private String tableName;
 	private String revision;
 	private String description;
-	private List<MetaProperty> properties;
+	private Set<MetaProperty> properties = new HashSet<MetaProperty>();
 	
 	public String getId() {
 		return id;
@@ -69,11 +70,11 @@ public class MetaClass implements Serializable {
 		this.description = description;
 	}
 		
-	public List<MetaProperty> getProperties() {
+	public Set<MetaProperty> getProperties() {
 		return properties;
 	}
 
-	public void setProperties(List<MetaProperty> properties) {
+	public void setProperties(Set<MetaProperty> properties) {
 		this.properties = properties;
 	}	
 }

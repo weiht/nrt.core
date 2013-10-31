@@ -37,6 +37,15 @@ public abstract class AbstractMetaClassManager implements MetaClassManager {
 		return m.matches();
 	}
 
+	protected void makePropertyIds(MetaClass clazz) {
+		for (MetaProperty p: clazz.getProperties()) {
+			if (p != null && p.getId() == null) {
+				p.setId((String)idGenerator.generate());
+				p.setMetaClass(clazz);
+			}
+		}
+	}
+
 	public MetaClass get(String id) {
 		if (!StringUtils.hasText(id)) return null;
 		return doGet(id);
@@ -57,6 +66,7 @@ public abstract class AbstractMetaClassManager implements MetaClassManager {
 		if(clazzExists(pkg, name)) throw new MetaDataAccessException("MetaClass already exist.");
 
 		clazz.setId((String)idGenerator.generate());
+		makePropertyIds(clazz);
 		doAdd(clazz);
 		return clazz;
 	}
@@ -96,6 +106,7 @@ public abstract class AbstractMetaClassManager implements MetaClassManager {
 		if (!validateName(prop.getName())) throw new MetaDataAccessException("Invalid name.");
 
 		prop.setId((String)idGenerator.generate());
+		prop.setMetaClass(clazz);
 		return doAddProperty(clazz, prop);
 	}
 
@@ -115,7 +126,7 @@ public abstract class AbstractMetaClassManager implements MetaClassManager {
 		orig.setInputHint(prop.getInputHint());
 		orig.setDisplayType(prop.getDisplayType());
 		orig.setDescription(prop.getDescription());
-		return doUpdateProperty(prop);
+		return doUpdateProperty(orig);
 	}
 
 	public List<MetaClass> all(String pkg) {
