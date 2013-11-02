@@ -19,9 +19,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.StatelessSession;
 import org.hibernate.StatelessSessionBuilder;
 import org.hibernate.TypeHelper;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.engine.spi.FilterDefinition;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.metadata.CollectionMetadata;
+import org.hibernate.service.ServiceRegistry;
 import org.hibernate.stat.Statistics;
 
 /**
@@ -31,6 +33,12 @@ import org.hibernate.stat.Statistics;
 @SuppressWarnings("serial")
 public class MetaClassSessionFactory implements RebuildableSessionFactory {
 	private SessionFactory sessionFactory;
+	private Configuration configuration;
+	private ServiceRegistry serviceRegistry;
+
+	private void buildSessionFactory() {
+		this.sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+	}
 
 	public SessionFactoryOptions getSessionFactoryOptions() {
 		return sessionFactory.getSessionFactoryOptions();
@@ -166,12 +174,17 @@ public class MetaClassSessionFactory implements RebuildableSessionFactory {
 		return sessionFactory.getTypeHelper();
 	}
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
 	@Override
 	public void rebuild() {
-		
+		buildSessionFactory();
+	}
+
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+		buildSessionFactory();
+	}
+
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 }
