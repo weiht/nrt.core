@@ -47,4 +47,9 @@
 	<property name="rebuildable" ref="rebuildable"/>
 </bean>
 
+<bean name="mapDAOH4Store" class="org.necros.data.h4.MapDAOStoreH4">
+	<property name="sessionFactory" value="#{getObject('dataSessionFactory')?:(getObject('sessionFactory')?:null)}"/>
+	<property name="idGenerator" ref="idGenerator"/>
+</bean>
+
 </beans>
