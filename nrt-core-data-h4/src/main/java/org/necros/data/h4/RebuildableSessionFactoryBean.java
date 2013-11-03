@@ -11,11 +11,11 @@ public class RebuildableSessionFactoryBean extends LocalSessionFactoryBean {
 	@Override
 	public SessionFactory getObject() {
 		if (serviceRegistry == null) {
-			serviceRegistry = new ServiceRegistryBuilder().buildServiceRegistry();
+			serviceRegistry = new ServiceRegistryBuilder().applySettings(getConfiguration().getProperties()).buildServiceRegistry();
 		}
 		MetaClassSessionFactory mcSessionFactory = new MetaClassSessionFactory();
-		mcSessionFactory.setConfiguration(getConfiguration());
 		mcSessionFactory.setServiceRegistry(serviceRegistry);
+		mcSessionFactory.setConfiguration(getConfiguration());
 		return mcSessionFactory;
 	}
 

@@ -26,4 +26,25 @@
 
 <alias name="metaClassManagerH4" alias="metaClassManager"/>
 
+<bean name="mappingGenerator" class="org.necros.data.h4.VelocityMappingGenerator">
+	<property name="mappingPath" value="${java.io.tmp}/mapping"/>
+	<property name="templateFile" value="classpath:mapping.vm"/>
+</bean>
+
+<bean name="rebuildable" class="org.necros.data.h4.RebuildableSessionFactoryBean">
+	<property name="dataSource" value="#{getObject('generalDataSource')?:(getObject('dataSource')?:null)}"></property>
+	<property name="mappingLocations">
+		<list>
+			<value>${java.io.tmp}/mapping/**/*.hbm.xml</value>
+		</list>
+	</property>
+	<property name="hibernateProperties" value="#{getObject('generalHibernateProperties')?:(getObject('hibernateProperties')?:null)}"/>
+</bean>
+
+<bean name="generalDataSchemaH4" class="org.necros.data.h4.GeneralDataSchemaH4">
+	<property name="metaClassSessionFactory" value="#{getObject('dataSessionFactory')?:(getObject('sessionFactory')?:null)}"/>
+	<property name="mappingGenerator" ref="mappingGenerator"/>
+	<property name="rebuildable" ref="rebuildable"/>
+</bean>
+
 </beans>
