@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+#if ($metaClass.metaPackage)
+  #set ($entityName="${metaClass.metaPackage}.${metaClass.name}")
+#else
+  #set ($entityName=${metaClass.name})
+#end
+#if ($metaClass.tableName)
+  #set ($tableName=$metaClass.tableName)
+#else
+  #set ($tableName=$metaClass.name)
+#end
+	<class entity-name="${entityName}" table="gobj_${tableName}">
+		<id name="objId" column="obj_id" type="string" length="64"/>
+		<property name="name" column="obj_name" type="string" length="200" not-null="true"/>
+		<property name="entityName" column="entity_name" type="string" length="200" not-null="true"/>
+		<property name="status" column="usable_status" type="string" length="20" not-null="true"/>
+#for ($prop in $metaClass.properties)
+  #if ($prop.columnName)
+    #set ($columnName=$prop.columnName)
+  #else
+    #set ($columnName=$prop.name)
+  #end
+  #if ($prop.dataType)
+    #set ($dataType=$prop.dataType)
+  #else
+    #set ($dataType="string")
+  #end
+		<property name="${prop.name}" type="${dataType}">
+			<column name="col_${columnName}"
+			#if($dataType=="string")
+				length="200"
+			#end
+			/>
+		</property>
+#end
+	</class>
+</hibernate-mapping>
