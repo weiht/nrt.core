@@ -3,6 +3,7 @@ package org.necros.data;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+@SuppressWarnings("serial")
 public class BasicObject implements Serializable {
 	private String id;
 	private String entity;

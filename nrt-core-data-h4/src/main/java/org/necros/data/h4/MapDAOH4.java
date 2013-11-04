@@ -5,10 +5,7 @@ import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.util.StringUtils;
-
 import org.necros.data.MapDAO;
 import org.necros.data.IdGenerator;
 import org.necros.data.MapKeys;
@@ -26,6 +23,7 @@ public class MapDAOH4 implements MapDAO {
 			.add(Restrictions.ne(MapKeys.KEY_STATUS, UsableStatuses.DELETED));
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map<String, Object> get(String id) {
 		return (Map<String, Object>) createCriteria()
 			.add(Restrictions.eq(MapKeys.KEY_ID, id))
@@ -70,6 +68,7 @@ public class MapDAOH4 implements MapDAO {
 		return orig;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> all() {
 		return createCriteria()
 			.list();
@@ -79,12 +78,14 @@ public class MapDAOH4 implements MapDAO {
 		return helper.count(createCriteria());
 	}
 
+	@SuppressWarnings("unchecked")
 	public Pager<Map<String, Object>> pageAll(Pager<Map<String, Object>> page) {
 		page.setRecordCount(countAll());
 		return helper.page(createCriteria(), page);
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> filtered(String filterText, String[] filterFields) {
 		return helper.filterOnFieldArray(
 				createCriteria(),
@@ -102,6 +103,7 @@ public class MapDAOH4 implements MapDAO {
 			));
 	}
 
+	@SuppressWarnings("unchecked")
 	public Pager<Map<String, Object>> pageFiltered(String filterText,
 			String[] filterFields, Pager<Map<String, Object>> page) {
 		page.setRecordCount(countFiltered(filterText, filterFields));

@@ -57,6 +57,7 @@ public class DictionaryServiceH4Test {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		logger.debug("Initializing dictionary...");
 		Category cat = new Category();
 		cat.setName(CATEGORY_NAME);
 		cat.setValueType(ValueType.String);

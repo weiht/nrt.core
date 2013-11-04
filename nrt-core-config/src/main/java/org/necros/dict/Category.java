@@ -2,6 +2,7 @@ package org.necros.dict;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Category implements Serializable {
 	private String name;
 	private ValueType valueType;

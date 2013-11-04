@@ -49,7 +49,7 @@ public class ResourceManagerH4 implements ResourceManager {
 			.uniqueResult()).intValue();
 	}
 
-	@SuppressWarnings("unckecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Pager doPage(Criteria c, Pager p) {
 		p.setResult(ordered(c).setFirstResult(p.getQueryFirst())
 			.setFetchSize(p.getPageSize())
@@ -75,13 +75,13 @@ public class ResourceManagerH4 implements ResourceManager {
 			.add(Restrictions.eq("parentPath", ResourceNode.SEPARATOR));
 	}
 
-	@SuppressWarnings("unckecked")
+	@SuppressWarnings("unchecked")
 	public List<ResourceNode> root() {
 		return ordered(rootCriteria(createCriteria()))
 			.list();
 	}
 
-	@SuppressWarnings("unckecked")
+	@SuppressWarnings("unchecked")
 	public List<ResourceNode> filteredRoot(String filterText) {
 		return ordered(filtered(rootCriteria(createCriteria()), filterText))
 			.list();
@@ -91,7 +91,7 @@ public class ResourceManagerH4 implements ResourceManager {
 		return doCount(rootCriteria(createCriteria()));
 	}
 	
-	@SuppressWarnings("unckecked")
+	@SuppressWarnings("unchecked")
 	public Pager<ResourceNode> pageRoot(Pager<ResourceNode> page) {
 		page.setRecordCount(countRoot());
 		return doPage(rootCriteria(createCriteria()), page);
@@ -101,7 +101,7 @@ public class ResourceManagerH4 implements ResourceManager {
 		return doCount(filtered(rootCriteria(createCriteria()), filterText));
 	}
 	
-	@SuppressWarnings("unckecked")
+	@SuppressWarnings("unchecked")
 	public Pager<ResourceNode> pageFilteredRoot(String filterText, Pager<ResourceNode> page) {
 		page.setRecordCount(countFilteredRoot(filterText));
 		return doPage(filtered(rootCriteria(createCriteria()), filterText), page);
@@ -117,13 +117,13 @@ public class ResourceManagerH4 implements ResourceManager {
 			.add(Restrictions.eq("parentPath", p));
 	}
 	
-	@SuppressWarnings("unckecked")
+	@SuppressWarnings("unchecked")
 	public List<ResourceNode> children(String path) {
 		return ordered(childrenCriteria(createCriteria(), path))
 			.list();
 	}
 	
-	@SuppressWarnings("unckecked")
+	@SuppressWarnings("unchecked")
 	public List<ResourceNode> filteredChildren(String filterText, String path) {
 		return ordered(filtered(childrenCriteria(createCriteria(), path), filterText))
 			.list();
@@ -133,7 +133,7 @@ public class ResourceManagerH4 implements ResourceManager {
 		return doCount(childrenCriteria(createCriteria(), path));
 	}
 	
-	@SuppressWarnings("unckecked")
+	@SuppressWarnings("unchecked")
 	public Pager<ResourceNode> pageChildren(String path, Pager<ResourceNode> page) {
 		page.setRecordCount(countChildren(path));
 		return doPage(childrenCriteria(createCriteria(), path), page);
@@ -143,7 +143,7 @@ public class ResourceManagerH4 implements ResourceManager {
 		return doCount(filtered(childrenCriteria(createCriteria(), path), filterText));
 	}
 	
-	@SuppressWarnings("unckecked")
+	@SuppressWarnings("unchecked")
 	public Pager<ResourceNode> pageFilteredChildren(String filterText, String path, Pager<ResourceNode> page) {
 		page.setRecordCount(countFilteredChildren(filterText, path));
 		return doPage(filtered(childrenCriteria(createCriteria(), path), filterText), page);

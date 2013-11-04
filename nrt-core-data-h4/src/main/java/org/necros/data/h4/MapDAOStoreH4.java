@@ -8,7 +8,7 @@ import org.necros.data.MapDAO;
 import org.necros.util.AbstractServiceStore;
 import org.necros.data.IdGenerator;
 
-public class MapDAOStoreH4<MapDAO> extends AbstractServiceStore {
+public class MapDAOStoreH4 extends AbstractServiceStore<MapDAO> {
 	private static final Logger logger = LoggerFactory.getLogger(MapDAOStoreH4.class);
 
 	private SessionFactory sessionFactory;
@@ -20,7 +20,7 @@ public class MapDAOStoreH4<MapDAO> extends AbstractServiceStore {
 		MapDAOH4 dao = new MapDAOH4();
 		dao.setSessionFactory(this.sessionFactory);
 		dao.setIdGenerator(this.idGenerator);
-		return (MapDAO)dao;
+		return dao;
 	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {

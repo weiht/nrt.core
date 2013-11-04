@@ -28,7 +28,7 @@ public class ResourceManagerH4Test {
 
 	@Resource(name="resourceManager")
 	private ResourceManager resourceManager;
-	private String orgId, xmlId, tvId;
+	private String orgId;
 
 	private void debugNode(ResourceNode n) {
 		if (!logger.isDebugEnabled()) return;
@@ -61,7 +61,6 @@ public class ResourceManagerH4Test {
 		n.setType(ContentType.String);
 		n.setStringValue("<?xml version=\"1.1\"?><root></root>");
 		resourceManager.add(n);
-		xmlId = n.getId();
 		debugNode(n);
 		//----------------------------
 		n = new ResourceNode();
@@ -69,7 +68,6 @@ public class ResourceManagerH4Test {
 		n.setNodeType(NodeType.Folder);
 		n.setType(ContentType.None);
 		resourceManager.add(n);
-		tvId = n.getId();
 		debugNode(n);
 	}
 

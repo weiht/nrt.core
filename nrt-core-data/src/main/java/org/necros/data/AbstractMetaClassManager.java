@@ -5,14 +5,11 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import org.necros.data.IdGenerator;
 
 public abstract class AbstractMetaClassManager implements MetaClassManager {
-	private static final Logger logger = LoggerFactory.getLogger(AbstractMetaClassManager.class);
 	private static final Pattern nameValidationPattern = Pattern.compile("^[a-z,A-Z]\\w*$");
 
 	private MetaPackageManager metaPackageManager;

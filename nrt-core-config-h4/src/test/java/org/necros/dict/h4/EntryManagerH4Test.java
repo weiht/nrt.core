@@ -5,8 +5,6 @@ package org.necros.dict.h4;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.junit.After;
@@ -20,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.necros.paging.Pager;
 import org.necros.dict.*;
 
 /**
@@ -47,6 +44,7 @@ public class EntryManagerH4Test {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		logger.debug("Initializing categories and entries...");
 		Category cat = new Category();
 		cat.setName(CATEGORY_NAME);
 		cat.setValueType(ValueType.String);

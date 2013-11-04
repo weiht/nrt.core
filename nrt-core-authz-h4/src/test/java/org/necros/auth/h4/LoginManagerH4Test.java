@@ -49,6 +49,7 @@ public class LoginManagerH4Test {
 	public void setUp() throws Exception {
 		rootId = addLogin("root", null);
 		adminId = addLogin("admin", UsableStatuses.DISABLED);
+		logger.debug("Logins added: (root=[{}]), (admin=[{}])", rootId, adminId);
 	}
 
 	@After
@@ -80,7 +81,7 @@ public class LoginManagerH4Test {
 	@Test @Transactional
 	public void testAdd() throws AuthException {
 		Login l, newL;
-		String ln, lpwd, lid;
+		String ln, lpwd;
 		ln = "test"; lpwd = "testpwd";
 		l = new Login();
 		l.setLoginName(ln);

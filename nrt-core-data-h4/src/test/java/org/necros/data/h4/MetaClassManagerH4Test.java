@@ -247,9 +247,8 @@ public class MetaClassManagerH4Test {
 
 	@Test(expected=MetaDataAccessException.class) @Transactional
 	public void testRemoveInvalid() throws MetaDataAccessException {
-		MetaClass cls;
 		logger.debug("Removing non-existing MetaClass...");
-		cls = manager.remove(arrId + "abc");
+		manager.remove(arrId + "abc");
 	}
 
 	@Test @Transactional
@@ -269,10 +268,9 @@ public class MetaClassManagerH4Test {
 	
 	@Test(expected=MetaDataAccessException.class) @Transactional
 	public void testMoveToInvalid() throws MetaDataAccessException {
-		MetaClass cls;
 		String pkg;
 		pkg = "org.necros";
-		cls = manager.moveTo(arrId, pkg);
+		manager.moveTo(arrId, pkg);
 	}
 
 	@Test @Transactional

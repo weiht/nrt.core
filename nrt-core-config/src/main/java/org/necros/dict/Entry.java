@@ -2,6 +2,7 @@ package org.necros.dict;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Entry implements Serializable {
 	public static final String STATUS_DISABLED = "disabled";
 	

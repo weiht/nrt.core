@@ -2,6 +2,7 @@ package org.necros.authz;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class RoleMember implements Serializable {
 	private String id;
 	private String roleId;

@@ -2,8 +2,6 @@ package org.necros.data.h4;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.junit.After;
@@ -51,6 +49,7 @@ public class BasicObjectServiceH4Test {
 
 	@Test @Transactional
 	public void testTouch() {
+		logger.debug("Testing general object touching...");
 		BasicObject obj;
 		String id;
 		long createTime, updateTime;

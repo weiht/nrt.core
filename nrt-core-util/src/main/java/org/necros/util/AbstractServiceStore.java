@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractServiceStore<T> implements ServiceStore {
+public abstract class AbstractServiceStore<T> implements ServiceStore<T> {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractServiceStore.class);
 
 	private Map<String, T> store = new HashMap<String, T>();

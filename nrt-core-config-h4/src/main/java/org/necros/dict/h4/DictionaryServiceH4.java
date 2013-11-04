@@ -3,23 +3,15 @@ package org.necros.dict.h4;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.util.StringUtils;
 
 import org.necros.paging.Pager;
-import org.necros.dict.Category;
-import org.necros.dict.ValueType;
 import org.necros.dict.Entry;
 import org.necros.dict.DictionaryService;
 import org.necros.data.h4.SessionFactoryHelper;
 
 public class DictionaryServiceH4 implements DictionaryService {
-	private SessionFactory sessionFactory;
 	private SessionFactoryHelper helper;
 	private String[] filterFields = {"value", "displayText", "description"};
 
@@ -73,7 +65,6 @@ public class DictionaryServiceH4 implements DictionaryService {
 	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
 		this.helper = SessionFactoryHelper.getInstance(sessionFactory);
 	}
 }

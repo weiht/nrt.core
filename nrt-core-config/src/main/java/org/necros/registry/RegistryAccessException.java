@@ -1,5 +1,6 @@
 package org.necros.registry;
 
+@SuppressWarnings("serial")
 public class RegistryAccessException extends Exception {
 	public RegistryAccessException() {
 	}

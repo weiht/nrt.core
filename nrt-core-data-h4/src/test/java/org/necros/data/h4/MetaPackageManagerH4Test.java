@@ -98,7 +98,6 @@ public class MetaPackageManagerH4Test {
 	public void testAdd() throws MetaDataAccessException {
 		MetaPackage pkg;
 		String path;
-		String name;
 		logger.debug("Testing MetaPackageManager.add ...");
 		path = "org";
 		pkg = new MetaPackage();

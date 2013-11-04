@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@SuppressWarnings("serial")
 public class MetaClass implements Serializable {
 	private String id;
 	private String metaPackage;

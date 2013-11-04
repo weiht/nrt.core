@@ -1,5 +1,6 @@
 package org.necros.data;
 
+@SuppressWarnings("serial")
 public class GeneralDataAccessException extends Exception {
 	public GeneralDataAccessException() {
 		super();

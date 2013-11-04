@@ -2,6 +2,7 @@ package org.necros.data;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class MetaProperty implements Serializable {
 	private String id;
 	private MetaClass metaClass;

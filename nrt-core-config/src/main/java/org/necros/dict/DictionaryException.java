@@ -1,5 +1,6 @@
 package org.necros.dict;
 
+@SuppressWarnings("serial")
 public class DictionaryException extends Exception {
 	public DictionaryException() {
 		super();

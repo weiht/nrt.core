@@ -11,7 +11,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.util.StringUtils;
-
 import org.necros.paging.Pager;
 
 public class SessionFactoryHelper {
@@ -41,6 +40,7 @@ public class SessionFactoryHelper {
 		return c.addOrder(Order.asc("displayOrder"));
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public Pager page(Criteria c, Pager p) {
 		p.setResult(c.setFirstResult(p.getQueryFirst())
 			.setFetchSize(p.getPageSize())

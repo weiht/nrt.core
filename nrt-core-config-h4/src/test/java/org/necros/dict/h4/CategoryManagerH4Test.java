@@ -45,6 +45,7 @@ public class CategoryManagerH4Test {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		logger.debug("Initializing category...");
 		Category cat = new Category();
 		cat.setName("gender");
 		cat.setValueType(ValueType.String);

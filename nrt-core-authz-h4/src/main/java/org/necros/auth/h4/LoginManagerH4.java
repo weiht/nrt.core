@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 
 public class LoginManagerH4 implements LoginManager {
 	private static final Class<Login> CLAZZ = Login.class;
-	private SessionFactory sessionFactory;
 	private SessionFactoryHelper helper;
 	private IdGenerator idGenerator;
 	private PasswordGenerator passwordGenerator;
@@ -89,7 +88,6 @@ public class LoginManagerH4 implements LoginManager {
 	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
 		this.helper = SessionFactoryHelper.getInstance(sessionFactory);
 	}
 

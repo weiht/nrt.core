@@ -2,18 +2,10 @@ package org.necros.dict.h4;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.util.StringUtils;
 
 import org.necros.paging.Pager;
 import org.necros.dict.Category;
-import org.necros.dict.ValueType;
 import org.necros.dict.Entry;
 import org.necros.dict.CategoryManager;
 import org.necros.dict.EntryManager;
@@ -22,7 +14,6 @@ import org.necros.dict.DictionaryService;
 import org.necros.data.h4.SessionFactoryHelper;
 
 public class CategoryManagerH4 implements CategoryManager {
-	private SessionFactory sessionFactory;
 	private SessionFactoryHelper helper;
 	private EntryManager entryManager;
 	private DictionaryService dictionaryService;
@@ -107,7 +98,6 @@ public class CategoryManagerH4 implements CategoryManager {
 	}
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
 		this.helper = SessionFactoryHelper.getInstance(sessionFactory);
 	}
 

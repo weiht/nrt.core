@@ -2,6 +2,7 @@ package org.necros.data;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class MetaPackage implements Serializable {
 	public static final String SEPARATOR = ".";
 	public static final String SEPARATOR_REGEX = "\\.";

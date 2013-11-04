@@ -1,5 +1,6 @@
 package org.necros.data;
 
+@SuppressWarnings("serial")
 public class MetaDataAccessException extends Exception {
 	public MetaDataAccessException() {
 		super();

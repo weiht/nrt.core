@@ -2,8 +2,6 @@ package org.necros.data.h4;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.hibernate.HibernateException;
@@ -25,7 +23,7 @@ public class MapDAOStoreH4Test {
 	private static final Logger logger = LoggerFactory.getLogger(MapDAOStoreH4Test.class);
 
 	@Resource(name="mapDAOH4Store")
-	private ServiceStore store;
+	private ServiceStore<MapDAO> store;
 
 	/**
 	 * @throws java.lang.Exception
@@ -48,7 +46,7 @@ public class MapDAOStoreH4Test {
 		String key;
 		key = "abc";
 		logger.debug("Retrieving DAO for [{}]", key);
-		dao = (MapDAO)store.get(key);
+		dao = store.get(key);
 		assertNotNull(dao);
 	}
 
@@ -58,7 +56,7 @@ public class MapDAOStoreH4Test {
 		String key;
 		key = "abc";
 		logger.debug("Retrieving DAO for [{}]", key);
-		dao = (MapDAO)store.get(key);
+		dao = store.get(key);
 		//No mapping, a HibernateException thrown.
 		dao.get("something");
 	}

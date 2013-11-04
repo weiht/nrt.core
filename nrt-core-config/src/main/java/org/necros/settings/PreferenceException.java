@@ -1,5 +1,6 @@
 package org.necros.settings;
 
+@SuppressWarnings("serial")
 public class PreferenceException extends Exception {
 	public PreferenceException() {
 		super();

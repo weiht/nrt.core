@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.util.StringUtils;
 
@@ -29,10 +28,6 @@ public class MetaClassManagerH4 extends AbstractMetaClassManager {
 
 	private Criteria packageClassCriteria(String pkg) {
 		return classCriteria().add(Restrictions.eq("metaPackage", pkg));
-	}
-
-	private Criteria propertyCriteria() {
-		return helper.getSession().createCriteria(CLS_PROOPERTY);
 	}
 
 	protected MetaClass doGet(String id) {

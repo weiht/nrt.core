@@ -3,13 +3,9 @@
  */
 package org.necros.data.h4;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-
 import org.hibernate.SessionFactory;
 
 import org.necros.data.BasicObject;
-import org.necros.data.BasicObjectService;
 import org.necros.data.AbstractBasicObjectService;
 import org.necros.data.ObjectTouchLog;
 import org.necros.data.h4.SessionFactoryHelper;
