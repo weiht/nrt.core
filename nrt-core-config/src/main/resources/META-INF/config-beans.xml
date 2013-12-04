@@ -10,6 +10,9 @@
 	<property name="propertiesLocation" value="classpath*:META-INF/*-preferences.properties"></property>
 </bean>
 
+<bean name="systemPropertiesPreferenceService" class="org.necros.settings.prop.SystemPropertiesPreferenceService">
+</bean>
+
 <bean name="cascadingPreferenceService" class="org.necros.settings.CascadingServiceImpl">
 </bean>
 
@@ -24,6 +27,11 @@
 
 <bean parent="cascadingPreferenceServiceInjector">
 	<property name="zIndex" value="0"></property>
+	<property name="service" ref="systemPropertiesPreferenceService"></property>
+</bean>
+
+<bean parent="cascadingPreferenceServiceInjector">
+	<property name="zIndex" value="1"></property>
 	<property name="service" ref="classpathPropertiesPreferenceService"></property>
 </bean>
 
