@@ -42,11 +42,11 @@ public class PreferenceManagerH4 extends AbstractPreferenceService implements Pr
 
 	@Override
 	public Preference get(String key) throws PreferenceException {
-		return doGetPreference(key);
+		return getRawPreference(key);
 	}
 	
 	@Override
-	protected Preference doGetPreference(String key) throws PreferenceException {
+	public Preference getRawPreference(String key) throws PreferenceException {
 		return (Preference) getSession().get(clazz, key);
 	}
 
