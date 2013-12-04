@@ -12,6 +12,12 @@ public interface PreferenceService {
 	/**
 	 * 根据参数key获取参数值
 	 * @param key
+	 * @return 找到的参数；如果未找到，返回null
+	 */
+	public abstract Preference getRawPreference(String key) throws PreferenceException;
+	/**
+	 * 根据参数key获取参数值
+	 * @param key
 	 * @param defaultValue
 	 * @return 找到的参数；如果未找到，返回null
 	 */

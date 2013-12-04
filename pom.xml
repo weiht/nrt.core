@@ -10,6 +10,8 @@
 	<properties>
 		<nrt-core-version>${project.version}</nrt-core-version>
 		<spring-version>3.2.4.RELEASE</spring-version>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
  
 	<modules>

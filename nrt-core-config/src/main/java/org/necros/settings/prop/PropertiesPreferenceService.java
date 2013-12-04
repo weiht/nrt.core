@@ -67,7 +67,7 @@ public class PropertiesPreferenceService extends AbstractPreferenceService {
 	}
 
 	@Override
-	protected Preference doGetPreference(String key) throws PreferenceException {
+	public Preference getRawPreference(String key) throws PreferenceException {
 		logger.trace(key);
 		if (propsDb == null) return null;
 		String k = mutateKey(key);

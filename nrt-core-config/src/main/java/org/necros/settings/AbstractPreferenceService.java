@@ -19,7 +19,7 @@ public abstract class AbstractPreferenceService implements PreferenceService {
 	
 	@Override
 	public Preference getPreference(String key) throws PreferenceException {
-		Preference itm = doGetPreference(key);
+		Preference itm = getRawPreference(key);
 		if (itm != null && !Preference.ITEM_TYPE_FOLDER.equals(itm.getItemType())) {
 			itm.setValue(formatValue(itm.getValue(), key));
 			return itm;
@@ -27,8 +27,6 @@ public abstract class AbstractPreferenceService implements PreferenceService {
 		//目录不作为参数返回。
 		return null;
 	}
-	
-	protected abstract Preference doGetPreference(String key) throws PreferenceException;
 	
 	@Override
 	public String stringValue(String key, String defaultValue) {

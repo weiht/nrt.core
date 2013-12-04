@@ -3,18 +3,18 @@ package org.necros.settings;
 import org.necros.settings.PreferenceException;
 
 public class CascadingPreferenceService extends AbstractPreferenceService {
-	private CascadingService<AbstractPreferenceService> services;
+	private CascadingService<PreferenceService> services;
 
 	@Override
-	protected Preference doGetPreference(String key) throws PreferenceException {
-		for (AbstractPreferenceService svc: services.getServices()) {
-			Preference p = svc.doGetPreference(key);
+	public Preference getRawPreference(String key) throws PreferenceException {
+		for (PreferenceService svc: services.getServices()) {
+			Preference p = svc.getRawPreference(key);
 			if (p != null) return p;
 		}
 		return null;
 	}
 
-	public void setServices(CascadingService<AbstractPreferenceService> services) {
+	public void setServices(CascadingService<PreferenceService> services) {
 		this.services = services;
 	}
 }
