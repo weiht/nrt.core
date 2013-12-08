@@ -16,12 +16,16 @@ public class CascadingServiceImpl<T> implements CascadingService<T> {
 	private Integer maxZIndex = 0;
 	private List<T> serviceList;
 
-	@Override
-	public void injectImplementer(Integer zIndex, T impl) {
+	private synchronized void ensureServices() {
 		if (services == null) {
 			services = new ArrayList<T>();
 			zIndices = new ArrayList<Integer>();
 		}
+	}
+
+	@Override
+	public void injectImplementer(Integer zIndex, T impl) {
+		ensureServices();
 		Integer z = zIndex == null ? 0 : zIndex;
 		if (z < 1) {
 			services.add(impl);
@@ -44,9 +48,9 @@ public class CascadingServiceImpl<T> implements CascadingService<T> {
 	}
 
 	public List<T> getServices() {
+		ensureServices();
 		synchronized (this) {
 			if (serviceList == null) {
-				if (services == null) return null;
 				serviceList = new ArrayList<T>(services);
 			}
 		}
