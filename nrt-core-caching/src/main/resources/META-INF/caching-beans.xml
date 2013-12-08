@@ -8,11 +8,11 @@
 	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 <bean name="methodResultCacheEhCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-    <property name="cacheManager" ref="ehcacheCacheManager"></property>
+    <property name="cacheManager" ref="ehcacheCacheManagerBean"></property>
     <property name="cacheName" value="org.necros.methodResultCached"></property>
 </bean>
 
-<bean name="ehcacheCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+<bean name="ehcacheCacheManagerBean" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
     <property name="configLocation" value="classpath:META-INF/ehcache.xml"></property>
 </bean>
 
