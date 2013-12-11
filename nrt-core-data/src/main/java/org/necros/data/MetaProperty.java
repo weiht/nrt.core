@@ -85,4 +85,21 @@ public class MetaProperty implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder buff = new StringBuilder();
+		buff.append("{'class': '").append(MetaProperty.class);
+		buff.append("', 'id': '").append(id);
+		buff.append("', 'metaClass': '").append(metaClass);
+		buff.append("', 'name': '").append(name);
+		buff.append("', 'displayName': '").append(displayName);
+		buff.append("', 'columnName': '").append(columnName);
+		buff.append("', 'inputHint': '").append(inputHint);
+		buff.append("', 'displayType': '").append(displayType);
+		buff.append("', 'dataType': '").append(dataType);
+		buff.append("', 'description': '").append(description);
+		buff.append("}");
+		return buff.toString();
+	}
 }

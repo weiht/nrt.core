@@ -52,4 +52,17 @@ public class MetaPackage implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder buff = new StringBuilder();
+		buff.append("{'class': '").append(MetaPackage.class);
+		buff.append("', 'id': '").append(id);
+		buff.append("', 'path': '").append(path);
+		buff.append("', 'parentPath': '").append(parentPath);
+		buff.append("', 'name': '").append(name);
+		buff.append("', 'description': '").append(description);
+		buff.append("'}");
+		return buff.toString();
+	}
 }

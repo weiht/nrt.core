@@ -77,5 +77,21 @@ public class MetaClass implements Serializable {
 
 	public void setProperties(Set<MetaProperty> properties) {
 		this.properties = properties;
-	}	
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder buff = new StringBuilder();
+		buff.append("{'class': '").append(MetaClass.class);
+		buff.append("', 'id': '").append(id);
+		buff.append("', 'metaPackage': '").append(metaPackage);
+		buff.append("', 'name': '").append(name);
+		buff.append("', 'displayName': '").append(displayName);
+		buff.append("', 'tableName': '").append(tableName);
+		buff.append("', 'revision': '").append(revision);
+		buff.append("', 'description': '").append(description);
+		buff.append("', 'properties': ").append(properties);
+		buff.append("}");
+		return buff.toString();
+	}
 }
