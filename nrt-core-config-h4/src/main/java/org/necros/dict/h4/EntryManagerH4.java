@@ -31,6 +31,7 @@ public class EntryManagerH4 implements EntryManager {
 		if (origEntry == null) throw new DictionaryException("No such entry.");
 
 		origEntry.setDisplayText(entry.getDisplayText());
+		origEntry.setDescription(entry.getDescription());
 		origEntry.setDisplayOrder(entry.getDisplayOrder());
 		origEntry.setValue(entry.getValue());
 
