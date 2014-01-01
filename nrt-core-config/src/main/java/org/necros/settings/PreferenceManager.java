@@ -6,9 +6,10 @@ import org.necros.settings.PreferenceException;
 
 public interface PreferenceManager extends PreferenceService {
 	public abstract Preference get(String key) throws PreferenceException;
-	public abstract List<Preference> root() throws PreferenceException;
+	public abstract List<Preference> rootPaths() throws PreferenceException;
+	public abstract List<Preference> rootPreferences() throws PreferenceException;
 	public abstract List<Preference> childPaths(String parentKey) throws PreferenceException;
-	public abstract List<Preference> Preferences(String parentKey) throws PreferenceException;
+	public abstract List<Preference> childPreferences(String parentKey) throws PreferenceException;
 	public abstract List<Preference> children(String parentKey) throws PreferenceException;
 	public abstract List<Preference> allPlain() throws PreferenceException;
 	

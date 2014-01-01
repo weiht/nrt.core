@@ -97,12 +97,12 @@ public class PreferenceManagerH4Test {
 	}
 
 	/**
-	 * Test method for {@link org.necros.settings.h4.PreferenceManagerH4#root()}.
+	 * Test method for {@link org.necros.settings.h4.PreferenceManagerH4#rootPaths()}.
 	 * @throws PreferenceException 
 	 */
 	@Test @Transactional
-	public void testRoot() throws PreferenceException {
-		List<Preference> root = manager.root();
+	public void testRootPaths() throws PreferenceException {
+		List<Preference> root = manager.rootPaths();
 		assertNotNull(root);
 		assertEquals(1, root.size());
 	}
@@ -122,18 +122,18 @@ public class PreferenceManagerH4Test {
 	}
 
 	/**
-	 * Test method for {@link org.necros.settings.h4.PreferenceManagerH4#Preferences(java.lang.String)}.
+	 * Test method for {@link org.necros.settings.h4.PreferenceManagerH4#childPreferences(java.lang.String)}.
 	 * @throws PreferenceException 
 	 */
 	@Test @Transactional
-	public void testPreferences() throws PreferenceException {
-		List<Preference> plist = manager.Preferences("/org");
+	public void testChildPreferences() throws PreferenceException {
+		List<Preference> plist = manager.childPreferences("/org");
 		assertNotNull(plist);
 		assertEquals(0, plist.size());
-		plist = manager.Preferences("/org/necros");
+		plist = manager.childPreferences("/org/necros");
 		assertNotNull(plist);
 		assertEquals(3, plist.size());
-		plist = manager.Preferences("/org/hyper");
+		plist = manager.childPreferences("/org/hyper");
 		assertNotNull(plist);
 		assertEquals(0, plist.size());
 	}
@@ -161,11 +161,11 @@ public class PreferenceManagerH4Test {
 	 */
 	@Test @Transactional
 	public void testCreate() throws PreferenceException {
-		List<Preference> root = manager.root();
+		List<Preference> root = manager.rootPaths();
 		assertNotNull(root);
 		assertEquals(1, root.size());
 		insertFolder("/net");
-		root = manager.root();
+		root = manager.rootPaths();
 		assertNotNull(root);
 		assertEquals(2, root.size());
 	}
@@ -193,11 +193,11 @@ public class PreferenceManagerH4Test {
 	 */
 	@Test @Transactional
 	public void testRemove() throws PreferenceException {
-		List<Preference> root = manager.root();
+		List<Preference> root = manager.rootPaths();
 		assertNotNull(root);
 		assertEquals(1, root.size());
 		manager.remove(root.get(0));
-		root = manager.root();
+		root = manager.rootPaths();
 		assertNotNull(root);
 		assertEquals(0, root.size());
 	}

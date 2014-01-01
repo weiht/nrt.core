@@ -56,9 +56,17 @@ public class PreferenceManagerH4 extends AbstractPreferenceService implements Pr
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Preference> root() {
-		return createCriteria()
-				.add(Restrictions.isNull("parentPath"))
+	public List<Preference> rootPaths() {
+		return addItemType(createCriteria().add(Restrictions.isNull("parentPath")),
+					Preference.ITEM_TYPE_FOLDER)
+				.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Preference> rootPreferences() {
+		return addItemType(createCriteria().add(Restrictions.isNull("parentPath")),
+					Preference.ITEM_TYPE_SETTING)
 				.list();
 	}
 
@@ -71,7 +79,7 @@ public class PreferenceManagerH4 extends AbstractPreferenceService implements Pr
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Preference> Preferences(String parentKey) {
+	public List<Preference> childPreferences(String parentKey) {
 		return  addItemType(addParent(createCriteria(), parentKey), Preference.ITEM_TYPE_SETTING)
 				.list();
 	}
