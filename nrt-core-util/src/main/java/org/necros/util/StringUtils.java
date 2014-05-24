@@ -36,4 +36,27 @@ public class StringUtils {
 		}
 		return bytes;
 	}
+
+	public static boolean isEmpty(String str) {
+		if (str == null) return true;
+		if (str.trim().isEmpty()) return true;
+		return false;
+	}
+
+	/**
+	 * Change a file path's extension to the given one.
+	 * <br/>
+	 * Note that the separator in the file path is expected to slash(/), not depending on the OS.
+	 * 
+	 * @param name File name.
+	 * @param ext New file extension. No dot is added by this method.
+	 * @return
+	 */
+	public static String changeFileExtension(String name, String ext) {
+		if (isEmpty(name)) return name;
+		if (isEmpty(ext)) return name;
+		int ix = name.lastIndexOf('.', name.lastIndexOf('/'));
+		if (ix < 1) return name;
+		return name.substring(0, ix) + ext;
+	}
 }
