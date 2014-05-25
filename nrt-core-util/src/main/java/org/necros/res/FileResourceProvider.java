@@ -16,7 +16,8 @@ implements ResourceProvider {
 	private static final String[] DEFAULT_ROOT_PATHS = {"/"};
 	
 	protected String[] rootPaths = DEFAULT_ROOT_PATHS;
-	protected List<FileRepositoryLocator> locators;
+	protected List<FileRepositoryLocator> repositoryLocators;
+	protected List<FileRepositoryLocator> resourceLocators;
 	protected File[] basePaths;
 	
 	protected File[] ensuerBasePaths() {
@@ -26,22 +27,39 @@ implements ResourceProvider {
 				for (String p: rootPaths) {
 					File f = new File(p);
 					if (f.exists() && f.isDirectory()) {
-						if (locators == null || locators.isEmpty()) {
-							paths.add(f);
-						} else {
-							for (FileRepositoryLocator l: locators) {
-								File[] fs = l.findRepos(f.getAbsolutePath());
-								for (File r: fs) {
-									paths.add(r);
-								}
-							}
-						}
+						fetchRepositoryPaths(paths, f);
 					}
 				}
 				basePaths = paths.toArray(new File[]{});
 			}
 		}
 		return basePaths;
+	}
+
+	private void fetchRepositoryPaths(List<File> paths, File f) {
+		if (repositoryLocators == null || repositoryLocators.isEmpty()) {
+			fetchResourcePathsInRepository(paths, f);
+		} else {
+			for (FileRepositoryLocator l: repositoryLocators) {
+				File[] repos = l.findRepos(f.getAbsolutePath());
+				for (File r: repos) {
+					fetchResourcePathsInRepository(paths, r);
+				}
+			}
+		}
+	}
+
+	private void fetchResourcePathsInRepository(List<File> paths, File repo) {
+		if (resourceLocators == null || resourceLocators.isEmpty()) {
+			paths.add(repo);
+		} else {
+			for (FileRepositoryLocator l: resourceLocators) {
+				File[] resPaths = l.findRepos(repo.getAbsolutePath());
+				for (File rp: resPaths) {
+					paths.add(rp);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -68,7 +86,11 @@ implements ResourceProvider {
 		}
 	}
 
-	public void setLocators(List<FileRepositoryLocator> locators) {
-		this.locators = locators;
+	public void setRepositoryLocators(List<FileRepositoryLocator> repositoryLocators) {
+		this.repositoryLocators = repositoryLocators;
+	}
+
+	public void setResourceLocators(List<FileRepositoryLocator> resourceLocators) {
+		this.resourceLocators = resourceLocators;
 	}
 }
