@@ -28,8 +28,8 @@
 		<property name="resourceLocators">
 			<list>
 				<ref bean="selfRepoLocator"/>
-				<bean class="org.necros.res.repo.ChildRepositoryLocator">
-					<property name="contains" value="${repo.respaths}"></property>
+				<bean class="org.necros.res.repo.ChildResourceLocator">
+					<property name="resourcePaths" value="${repo.respaths}"></property>
 				</bean>
 			</list>
 		</property>

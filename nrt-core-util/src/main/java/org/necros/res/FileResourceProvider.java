@@ -9,9 +9,13 @@ import java.util.List;
 
 import org.necros.res.repo.FileRepositoryLocator;
 import org.necros.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FileResourceProvider
 implements ResourceProvider {
+	private static final Logger logger = LoggerFactory.getLogger(FileResourceProvider.class);
+	
 	public static final String SEPARATOR = ",";
 	private static final String[] DEFAULT_ROOT_PATHS = {"/"};
 	
@@ -31,6 +35,9 @@ implements ResourceProvider {
 					}
 				}
 				basePaths = paths.toArray(new File[]{});
+				if (logger.isTraceEnabled()) {
+					logger.trace("Resource search paths: {}", paths);
+				}
 			}
 		}
 		return basePaths;
