@@ -27,7 +27,7 @@
 <alias name="metaClassManagerH4" alias="metaClassManager"/>
 
 <bean name="mappingGenerator" class="org.necros.data.h4.VelocityMappingGenerator">
-	<property name="mappingPath" value="${java.io.tmp}/mapping"/>
+	<property name="mappingPath" value="${h4.mappinig.dir}"/>
 	<property name="templateFile" value="classpath:mapping.vm"/>
 </bean>
 
@@ -35,7 +35,7 @@
 	<property name="dataSource" value="#{getObject('generalDataSource')?:(getObject('dataSource')?:null)}"></property>
 	<property name="mappingLocations">
 		<list>
-			<value>${java.io.tmp}/mapping/**/*.hbm.xml</value>
+			<value>${h4.mappinig.dir}/**/*.hbm.xml</value>
 		</list>
 	</property>
 	<property name="hibernateProperties" value="#{getObject('generalHibernateProperties')?:(getObject('hibernateProperties')?:null)}"/>
