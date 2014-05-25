@@ -22,7 +22,7 @@ public class RepositoryFilterByChild implements FileFilter {
 		if (containing == null || containing.length == 0) return true;
 		for (String con: containing) {
 			File c = new File(f, con);
-			if (c.exists() && c.isDirectory()) return true;
+			if (c.exists()) return true;
 		}
 		return false;
 	}
