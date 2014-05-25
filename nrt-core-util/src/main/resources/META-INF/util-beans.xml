@@ -12,4 +12,27 @@
 	<bean name="uuidGenerator" class="org.necros.data.UuidStringGenerator"/>
 	<alias name="uuidGenerator" alias="idGenerator"/>
 	
+	<bean name="selfRepoLocator" class="org.necros.res.repo.SelfFileRepositoryLocator">
+	</bean>
+	
+	<bean name="fileResourceProvider" class="org.necros.res.FileResourceProvider">
+		<property name="rootPaths" value="${repo.dirs}"></property>
+		<property name="repositoryLocators">
+			<list>
+				<ref bean="selfRepoLocator"/>
+				<bean class="org.necros.res.repo.ChildRepositoryLocator">
+					<property name="contains" value="${repo.contains}"></property>
+				</bean>
+			</list>
+		</property>
+		<property name="resourceLocators">
+			<list>
+				<ref bean="selfRepoLocator"/>
+				<bean class="org.necros.res.repo.ChildRepositoryLocator">
+					<property name="contains" value="${repo.respaths}"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 </beans>
