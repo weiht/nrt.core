@@ -16,6 +16,10 @@
 	</bean>
 	
 	<bean name="fileResourceProvider" class="org.necros.res.FileResourceProvider">
+		<property name="locator" ref="repositoryLocator"></property>
+	</bean>
+	
+	<bean name="repositoryLocator" class="org.necros.res.repo.CompositeRepositoryLocator">
 		<property name="rootPaths" value="${repo.dirs}"></property>
 		<property name="repositoryLocators">
 			<list>
