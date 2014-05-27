@@ -10,6 +10,8 @@ package org.necros.util;
 public class StringUtils {
 	private static final String HEX_STRING = "0123456789ABCDEF";
 	private static final char[] HEX_CHARS = HEX_STRING.toCharArray();
+	private static final String EMPTY_STR = "";
+	private static final String EXT_SEPARATOR = ".";
 	
 	public static String bytesToString(byte[] src) {
 		StringBuilder buff = new StringBuilder();
@@ -58,5 +60,13 @@ public class StringUtils {
 		int ix = name.lastIndexOf('.', name.lastIndexOf('/'));
 		if (ix < 1) return name;
 		return name.substring(0, ix) + ext;
+	}
+
+	public static String extractExtension(String fn) {
+		if (isEmpty(fn)) return EMPTY_STR;
+		String fname = fn.trim();
+		int ix = fname.lastIndexOf(EXT_SEPARATOR);
+		if (ix >= 0) return fname.substring(ix);
+		return fname;
 	}
 }
