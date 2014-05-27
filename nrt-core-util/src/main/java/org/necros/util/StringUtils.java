@@ -69,4 +69,16 @@ public class StringUtils {
 		if (ix >= 0) return fname.substring(ix);
 		return fname;
 	}
+	
+	public static void appendIfNotEmpty(StringBuffer buff, String str) {
+		if (!isEmpty(str)) {
+			buff.append(str.trim());
+		}
+	}
+	
+	public static void appendIfNotEmpty(StringBuilder buff, String str) {
+		if (!isEmpty(str)) {
+			buff.append(str.trim());
+		}
+	}
 }
