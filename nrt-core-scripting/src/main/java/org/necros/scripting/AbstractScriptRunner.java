@@ -24,6 +24,7 @@ implements ScriptRunner {
 		if (resourceProvider == null) return null;
 		String name = scriptName(script);
 		InputStream ins = resourceProvider.read(name);
+		if (ins == null) return extraContext;
 		try {
 			return doRunScript(ins, extraContext);
 		} finally {
