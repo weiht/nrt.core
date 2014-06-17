@@ -57,8 +57,8 @@ public class StringUtils {
 	public static String changeFileExtension(String name, String ext) {
 		if (isEmpty(name)) return name;
 		if (isEmpty(ext)) return name;
-		int ix = name.lastIndexOf('.', name.lastIndexOf('/'));
-		if (ix < 1) return name;
+		int ix = name.lastIndexOf('.');
+		if (ix < 1 || ix < name.lastIndexOf('/')) return name;
 		return name.substring(0, ix) + ext;
 	}
 
