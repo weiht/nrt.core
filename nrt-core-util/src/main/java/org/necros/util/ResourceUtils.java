@@ -12,6 +12,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 public class ResourceUtils {
 	private static final Logger logger = LoggerFactory.getLogger(ResourceUtils.class);
+	private static final int DEFAULT_BUFFER_SIZE = 4096;
     private static ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 	
 	public static InputStream loadResource(String resourceName) {
@@ -53,5 +54,24 @@ public class ResourceUtils {
 				//
 			}
 		}
+	}
+	
+	public static int transfer(InputStream ins, OutputStream outs) throws IOException {
+		return transfer(ins, outs, DEFAULT_BUFFER_SIZE);
+	}
+	
+	public static int transfer(InputStream ins, OutputStream outs, int buffSize) throws IOException {
+		int b = buffSize;
+		if (b < DEFAULT_BUFFER_SIZE) b = DEFAULT_BUFFER_SIZE;
+		byte[] buff = new byte[b];
+		int total = 0, r;
+		while ((r = ins.read(buff)) >= 0) {
+			if (r > 0) {
+				total += r;
+				outs.write(buff, 0, r);
+			}
+		}
+		outs.flush();
+		return total;
 	}
 }
