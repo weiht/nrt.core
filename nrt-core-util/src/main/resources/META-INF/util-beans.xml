@@ -20,12 +20,12 @@
 	</bean>
 	
 	<bean name="repositoryLocator" class="org.necros.res.repo.CompositeRepositoryLocator">
-		<property name="rootPaths" value="${repo.dirs}"></property>
+		<property name="rootPaths" value="${repo.dirs:${java.io.tmpdir}}"></property>
 		<property name="repositoryLocators">
 			<list>
 				<ref bean="selfRepoLocator"/>
 				<bean class="org.necros.res.repo.ChildRepositoryLocator">
-					<property name="contains" value="${repo.contains}"></property>
+					<property name="contains" value="${repo.contains:.git,pom.xml}"></property>
 				</bean>
 			</list>
 		</property>
@@ -33,7 +33,7 @@
 			<list>
 				<ref bean="selfRepoLocator"/>
 				<bean class="org.necros.res.repo.ChildResourceLocator">
-					<property name="resourcePaths" value="${repo.respaths}"></property>
+					<property name="resourcePaths" value="${repo.respaths:/src/main/resources,/src/main/groovy}"></property>
 				</bean>
 			</list>
 		</property>
